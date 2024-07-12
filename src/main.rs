@@ -214,12 +214,14 @@ Try to install the latest Rustlings version first.";
 
 const PRE_INIT_MSG: &str = r"
        Welcome to...
-                 _   _ _
-  _ __ _   _ ___| |_| (_)_ __   __ _ ___
- | '__| | | / __| __| | | '_ \ / _` / __|
- | |  | |_| \__ \ |_| | | | | | (_| \__ \
- |_|   \__,_|___/\__|_|_|_| |_|\__, |___/
-                               |___/
+     _    _ _                 
+    | |  | (_)                
+ ___| | _| |_ _ __   __ _ ___ 
+|_  / |/ / | | '_ \ / _` / __|
+ / /|   <| | | | | | (_| \__ \
+/___|_|\_\_|_|_| |_|\__, |___/
+                     __/ |    
+                    |___/     
 
 The `exercises/` directory couldn't be found in the current directory.
-If you are just starting with Rustlings, run the command `rustlings init` to initialize it.";
+If you are just starting with ZKlings, run the command `zklings init` to initialize it.";

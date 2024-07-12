@@ -8,12 +8,14 @@
 fn main() {
     println!("Hello and");
     println!(r#"       welcome to...                      "#);
-    println!(r#"                 _   _ _                  "#);
-    println!(r#"  _ __ _   _ ___| |_| (_)_ __   __ _ ___  "#);
-    println!(r#" | '__| | | / __| __| | | '_ \ / _` / __| "#);
-    println!(r#" | |  | |_| \__ \ |_| | | | | | (_| \__ \ "#);
-    println!(r#" |_|   \__,_|___/\__|_|_|_| |_|\__, |___/ "#);
-    println!(r#"                               |___/      "#);
+    println!("     _    _ _                 ");
+    println!("    | |  | (_)                ");
+    println!(" ___| | _| |_ _ __   __ _ ___ ");
+    println!("|_  / |/ / | | '_ \\ / _` / __|");
+    println!(" / /|   <| | | | | | (_| \\__ \\");
+    println!("/___|_|\\_\\_|_|_| |_|\\__, |___/");
+    println!("                     __/ |    ");
+    println!("                    |___/     ");
     println!();
     println!("This exercise compiles successfully. The remaining exercises contain a compiler");
     println!("or logic error. The central concept behind Rustlings is to fix these errors and");

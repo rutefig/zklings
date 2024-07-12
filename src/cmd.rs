@@ -76,8 +76,34 @@ impl<'a> CargoCmd<'a> {
     }
 }
 
+pub struct CircomCmd<'a> {
+    pub subcommand: &'a str,
+    pub args: &'a [&'a str],
+    pub circuit_name: &'a str,
+    pub description: &'a str,
+    /// The output buffer to append the merged stdout and stderr.
+    pub output: &'a mut Vec<u8>,
+    /// Directory where the circuit file is located
+    pub circuit_dir: &'a Path,
+}
+
+impl<'a> CircomCmd<'a> {
+    /// Run Circom command for compiling, proving, or verifying
+    pub fn run(&mut self) -> Result<bool> {
+        let mut cmd = Command::new("circom");
+        cmd.current_dir(self.circuit_dir)
+            .arg(self.subcommand)
+            .arg(self.circuit_name)
+            .args(self.args);
+
+        run_cmd(cmd, self.description, self.output)
+    }
+}
+
 #[cfg(test)]
 mod tests {
+    use std::path::PathBuf;
+
     use super::*;
 
     #[test]
@@ -89,5 +115,25 @@ mod tests {
         run_cmd(cmd, "echo …", &mut output).unwrap();
 
         assert_eq!(output, b"Hello\n\n");
+    }
+
+    // TODO: fix this
+    #[test]
+    fn test_circom_cmd() {
+        let circuit_dir = PathBuf::from("path/to/circom/circuits");
+        let mut output = Vec::new();
+        let mut cmd = CircomCmd {
+            subcommand: "compile",
+            args: &["--r1cs", "--wasm", "--sym"],
+            circuit_name: "test_circuit.circom",
+            description: "Compiling Circom circuit",
+            output: &mut output,
+            circuit_dir: &circuit_dir,
+        };
+
+        // Note: This test will fail if Circom is not installed or the circuit doesn't exist
+        // You might want to mock this or use a sample circuit for testing
+        let result = cmd.run();
+        assert!(result.is_ok());
     }
 }

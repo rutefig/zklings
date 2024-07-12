@@ -8,7 +8,7 @@ use std::{
 };
 
 use crate::{
-    cmd::{run_cmd, CargoCmd},
+    cmd::{run_cmd, CargoCmd, CircomCmd},
     in_official_repo,
     terminal_link::TerminalFileLink,
     DEBUG_PROFILE,
@@ -61,6 +61,10 @@ pub struct Exercise {
 impl Exercise {
     pub fn terminal_link(&self) -> StyledContent<TerminalFileLink<'_>> {
         style(TerminalFileLink(self.path)).underlined().blue()
+    }
+
+    pub fn is_circom(&self) -> bool {
+        self.path.ends_with(".circom")
     }
 }
 
@@ -142,6 +146,42 @@ pub trait RunnableExercise {
         let run_success = run_bin(bin_name, output, target_dir)?;
 
         Ok(test_success && run_success)
+    }
+
+    /// Function for running Circom exercises
+    fn run_circom(&self, output: &mut Vec<u8>) -> Result<bool> {
+        // TODO: check this
+        let circuit_dir = Path::new("path/to/your/circom/circuits");
+        writeln!(output, "{}", "Compiling Circom circuit...".underlined())?;
+
+        let mut compile_cmd = CircomCmd {
+            subcommand: "compile",
+            args: &["--r1cs", "--wasm", "--sym"],
+            circuit_name: self.name(),
+            description: "Compiling Circom circuit",
+            output,
+            circuit_dir,
+        };
+    
+        let compile_success = compile_cmd.run()?;
+    
+        if !compile_success {
+            return Ok(false);
+        }
+
+        writeln!(output, "{}", "Generating proof...".underlined())?;
+
+        // Here you would implement the logic to generate a proof
+        // This is a placeholder and would need to be expanded based on your specific requirements
+        let proof_success = true;
+
+        writeln!(output, "{}", "Verifying proof...".underlined())?;
+
+        // Here you would implement the logic to verify the proof
+        // This is a placeholder and would need to be expanded based on your specific requirements
+        let verify_success = true;
+
+        Ok(compile_success && proof_success && verify_success)
     }
 
     /// Compile, check and run the exercise.

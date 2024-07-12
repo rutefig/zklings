@@ -11,7 +11,11 @@ use crate::{
 pub fn run(app_state: &mut AppState) -> Result<()> {
     let exercise = app_state.current_exercise();
     let mut output = Vec::with_capacity(OUTPUT_CAPACITY);
-    let success = exercise.run_exercise(&mut output, app_state.target_dir())?;
+    let success = if exercise.is_circom() {
+        exercise.run_circom(&mut output)?
+    } else {
+        exercise.run_exercise(&mut output, app_state.target_dir())?
+    };
 
     let mut stdout = io::stdout().lock();
     stdout.write_all(&output)?;
@@ -32,11 +36,13 @@ pub fn run(app_state: &mut AppState) -> Result<()> {
         exercise.path.green(),
     )?;
 
-    if let Some(solution_path) = app_state.current_solution_path()? {
-        println!(
-            "\nA solution file can be found at {}\n",
-            style(TerminalFileLink(&solution_path)).underlined().green(),
-        );
+    if !exercise.is_circom() {
+        if let Some(solution_path) = app_state.current_solution_path()? {
+            println!(
+                "\nA solution file can be found at {}\n",
+                style(TerminalFileLink(&solution_path)).underlined().green(),
+            );
+        }
     }
 
     match app_state.done_current_exercise(&mut stdout)? {
