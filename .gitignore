@@ -4,7 +4,7 @@ Cargo.lock
 !/Cargo.lock
 
 # State file
-.rustlings-state.txt
+.zklings-state.txt
 
 # oranda
 public/

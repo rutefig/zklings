@@ -38,7 +38,7 @@ const DEBUG_PROFILE: bool = {
 
 // The current directory is the official Rustligns repository.
 fn in_official_repo() -> bool {
-    Path::new("dev/rustlings-repo.txt").exists()
+    Path::new("dev/zklings-repo.txt").exists()
 }
 
 fn clear_terminal(stdout: &mut StdoutLock) -> io::Result<()> {
@@ -101,7 +101,7 @@ fn main() -> Result<()> {
 
             {
                 let mut stdout = io::stdout().lock();
-                stdout.write_all(b"This command will create the directory `rustlings/` which will contain the exercises.\nPress ENTER to continue ")?;
+                stdout.write_all(b"This command will create the directory `zklings/` which will contain the exercises.\nPress ENTER to continue ")?;
                 stdout.flush()?;
                 press_enter_prompt()?;
                 stdout.write_all(b"\n")?;

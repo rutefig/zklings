@@ -41,7 +41,7 @@ fn check_cargo_toml(
             bail!("The file `dev/Cargo.toml` is outdated. Please run `cargo run -- dev update` to update it");
         }
 
-        bail!("The file `Cargo.toml` is outdated. Please run `rustlings dev update` to update it");
+        bail!("The file `Cargo.toml` is outdated. Please run `zklings dev update` to update it");
     }
 
     Ok(())
@@ -204,7 +204,7 @@ fn check_exercises_unsolved(info_file: &InfoFile, target_dir: &Path) -> Result<(
 fn check_exercises(info_file: &InfoFile, target_dir: &Path) -> Result<()> {
     match info_file.format_version.cmp(&CURRENT_FORMAT_VERSION) {
         Ordering::Less => bail!("`format_version` < {CURRENT_FORMAT_VERSION} (supported version)\nPlease migrate to the latest format version"),
-        Ordering::Greater => bail!("`format_version` > {CURRENT_FORMAT_VERSION} (supported version)\nTry updating the Rustlings program"),
+        Ordering::Greater => bail!("`format_version` > {CURRENT_FORMAT_VERSION} (supported version)\nTry updating the ZKlings program"),
         Ordering::Equal => (),
     }
 

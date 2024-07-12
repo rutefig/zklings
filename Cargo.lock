@@ -644,34 +644,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7a66a03ae7c801facd77a29370b4faec201768915ac14a721ba36f20bc9c209b"
 
 [[package]]
-name = "rustlings"
-version = "6.1.0"
-dependencies = [
- "anyhow",
- "assert_cmd",
- "clap",
- "crossterm",
- "hashbrown",
- "notify-debouncer-mini",
- "os_pipe",
- "predicates",
- "ratatui",
- "rustlings-macros",
- "serde",
- "serde_json",
- "toml_edit",
-]
-
-[[package]]
-name = "rustlings-macros"
-version = "6.1.0"
-dependencies = [
- "quote",
- "serde",
- "toml_edit",
-]
-
-[[package]]
 name = "rustversion"
 version = "1.0.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1120,4 +1092,32 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn",
+]
+
+[[package]]
+name = "zklings"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "assert_cmd",
+ "clap",
+ "crossterm",
+ "hashbrown",
+ "notify-debouncer-mini",
+ "os_pipe",
+ "predicates",
+ "ratatui",
+ "serde",
+ "serde_json",
+ "toml_edit",
+ "zklings-macros",
+]
+
+[[package]]
+name = "zklings-macros"
+version = "0.1.0"
+dependencies = [
+ "quote",
+ "serde",
+ "toml_edit",
 ]

@@ -1,6 +1,6 @@
 [package]
-name = "rustlings-macros"
-description = "A macros crate intended to be used only by Rustlings"
+name = "zklings-macros"
+description = "A macros crate intended to be used only by ZKLing"
 version.workspace = true
 authors.workspace = true
 repository.workspace = true

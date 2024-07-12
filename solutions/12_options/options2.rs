@@ -6,7 +6,7 @@ fn main() {
 mod tests {
     #[test]
     fn simple_option() {
-        let target = "rustlings";
+        let target = "zklings";
         let optional_target = Some(target);
 
         // if-let

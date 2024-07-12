@@ -116,13 +116,13 @@ pub fn watch(
 
 const QUIT_MSG: &[u8] = b"
 We hope you're enjoying learning Rust!
-If you want to continue working on the exercises at a later point, you can simply run `rustlings` again.
+If you want to continue working on the exercises at a later point, you can simply run `zklings` again.
 ";
 
 const NOTIFY_ERR: &str = "
 The automatic detection of exercise file changes failed :(
-Please try running `rustlings` again.
+Please try running `zklings` again.
 
-If you keep getting this error, run `rustlings --manual-run` to deactivate the file watcher.
+If you keep getting this error, run `zklings --manual-run` to deactivate the file watcher.
 You need to manually trigger running the current exercise using `r` then.
 ";

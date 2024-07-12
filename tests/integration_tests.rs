@@ -3,7 +3,7 @@ use std::process::Command;
 
 #[test]
 fn fails_when_in_wrong_dir() {
-    Command::cargo_bin("rustlings")
+    Command::cargo_bin("zklings")
         .unwrap()
         .current_dir("tests/")
         .assert()
@@ -12,7 +12,7 @@ fn fails_when_in_wrong_dir() {
 
 #[test]
 fn run_single_compile_success() {
-    Command::cargo_bin("rustlings")
+    Command::cargo_bin("zklings")
         .unwrap()
         .args(["run", "compSuccess"])
         .current_dir("tests/fixture/success/")
@@ -22,7 +22,7 @@ fn run_single_compile_success() {
 
 #[test]
 fn run_single_compile_failure() {
-    Command::cargo_bin("rustlings")
+    Command::cargo_bin("zklings")
         .unwrap()
         .args(["run", "compFailure"])
         .current_dir("tests/fixture/failure/")
@@ -32,7 +32,7 @@ fn run_single_compile_failure() {
 
 #[test]
 fn run_single_test_success() {
-    Command::cargo_bin("rustlings")
+    Command::cargo_bin("zklings")
         .unwrap()
         .args(["run", "testSuccess"])
         .current_dir("tests/fixture/success/")
@@ -42,7 +42,7 @@ fn run_single_test_success() {
 
 #[test]
 fn run_single_test_failure() {
-    Command::cargo_bin("rustlings")
+    Command::cargo_bin("zklings")
         .unwrap()
         .args(["run", "testFailure"])
         .current_dir("tests/fixture/failure/")
@@ -52,7 +52,7 @@ fn run_single_test_failure() {
 
 #[test]
 fn run_single_test_not_passed() {
-    Command::cargo_bin("rustlings")
+    Command::cargo_bin("zklings")
         .unwrap()
         .args(["run", "testNotPassed.rs"])
         .current_dir("tests/fixture/failure/")
@@ -62,7 +62,7 @@ fn run_single_test_not_passed() {
 
 #[test]
 fn run_single_test_no_exercise() {
-    Command::cargo_bin("rustlings")
+    Command::cargo_bin("zklings")
         .unwrap()
         .args(["run", "compNoExercise.rs"])
         .current_dir("tests/fixture/failure")
@@ -72,7 +72,7 @@ fn run_single_test_no_exercise() {
 
 #[test]
 fn reset_single_exercise() {
-    Command::cargo_bin("rustlings")
+    Command::cargo_bin("zklings")
         .unwrap()
         .args(["reset", "intro1"])
         .assert()
@@ -81,7 +81,7 @@ fn reset_single_exercise() {
 
 #[test]
 fn reset_no_exercise() {
-    Command::cargo_bin("rustlings")
+    Command::cargo_bin("zklings")
         .unwrap()
         .arg("reset")
         .assert()
@@ -93,7 +93,7 @@ fn reset_no_exercise() {
 
 #[test]
 fn get_hint_for_single_test() {
-    Command::cargo_bin("rustlings")
+    Command::cargo_bin("zklings")
         .unwrap()
         .args(["hint", "testFailure"])
         .current_dir("tests/fixture/failure")
@@ -104,7 +104,7 @@ fn get_hint_for_single_test() {
 
 #[test]
 fn run_compile_exercise_does_not_prompt() {
-    Command::cargo_bin("rustlings")
+    Command::cargo_bin("zklings")
         .unwrap()
         .args(["run", "pending_exercise"])
         .current_dir("tests/fixture/state")
@@ -114,7 +114,7 @@ fn run_compile_exercise_does_not_prompt() {
 
 #[test]
 fn run_test_exercise_does_not_prompt() {
-    Command::cargo_bin("rustlings")
+    Command::cargo_bin("zklings")
         .unwrap()
         .args(["run", "pending_test_exercise"])
         .current_dir("tests/fixture/state")
@@ -124,7 +124,7 @@ fn run_test_exercise_does_not_prompt() {
 
 #[test]
 fn run_single_test_success_with_output() {
-    Command::cargo_bin("rustlings")
+    Command::cargo_bin("zklings")
         .unwrap()
         .args(["run", "testSuccess"])
         .current_dir("tests/fixture/success/")

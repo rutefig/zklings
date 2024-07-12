@@ -7,7 +7,7 @@ use std::{
 use crate::info_file::ExerciseInfo;
 
 /// Contains all embedded files.
-pub static EMBEDDED_FILES: EmbeddedFiles = rustlings_macros::include_files!();
+pub static EMBEDDED_FILES: EmbeddedFiles = zklings_macros::include_files!();
 
 #[derive(Clone, Copy)]
 pub enum WriteStrategy {

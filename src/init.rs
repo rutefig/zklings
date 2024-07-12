@@ -18,21 +18,21 @@ pub fn init() -> Result<()> {
         bail!(CARGO_TOML_EXISTS_ERR);
     }
 
-    let rustlings_path = Path::new("rustlings");
-    if let Err(e) = create_dir(rustlings_path) {
+    let zklings_path = Path::new("zklings");
+    if let Err(e) = create_dir(zklings_path) {
         if e.kind() == ErrorKind::AlreadyExists {
             bail!(RUSTLINGS_DIR_ALREADY_EXISTS_ERR);
         }
         return Err(e.into());
     }
 
-    set_current_dir("rustlings")
-        .context("Failed to change the current directory to `rustlings/`")?;
+    set_current_dir("zklings")
+        .context("Failed to change the current directory to `zklings/`")?;
 
     let info_file = InfoFile::parse()?;
     EMBEDDED_FILES
         .init_exercises_dir(&info_file.exercises)
-        .context("Failed to initialize the `rustlings/exercises` directory")?;
+        .context("Failed to initialize the `zklings/exercises` directory")?;
 
     create_dir("solutions").context("Failed to create the `solutions/` directory")?;
     for dir in EMBEDDED_FILES.exercise_dirs {
@@ -61,14 +61,14 @@ pub fn init() -> Result<()> {
     let updated_cargo_toml = updated_cargo_toml(&info_file.exercises, current_cargo_toml, b"")
         .context("Failed to generate `Cargo.toml`")?;
     fs::write("Cargo.toml", updated_cargo_toml)
-        .context("Failed to create the file `rustlings/Cargo.toml`")?;
+        .context("Failed to create the file `zklings/Cargo.toml`")?;
 
     fs::write(".gitignore", GITIGNORE)
-        .context("Failed to create the file `rustlings/.gitignore`")?;
+        .context("Failed to create the file `zklings/.gitignore`")?;
 
-    create_dir(".vscode").context("Failed to create the directory `rustlings/.vscode`")?;
+    create_dir(".vscode").context("Failed to create the directory `zklings/.vscode`")?;
     fs::write(".vscode/extensions.json", VS_CODE_EXTENSIONS_JSON)
-        .context("Failed to create the file `rustlings/.vscode/extensions.json`")?;
+        .context("Failed to create the file `zklings/.vscode/extensions.json`")?;
 
     // Ignore any Git error because Git initialization is not required.
     let _ = Command::new("git")
@@ -92,7 +92,7 @@ const INIT_SOLUTION_FILE: &[u8] = b"fn main() {
 }
 ";
 
-const GITIGNORE: &[u8] = b".rustlings-state.txt
+const GITIGNORE: &[u8] = b".zklings-state.txt
 solutions
 Cargo.lock
 target
@@ -103,14 +103,14 @@ pub const VS_CODE_EXTENSIONS_JSON: &[u8] = br#"{"recommendations":["rust-lang.ru
 
 const CARGO_TOML_EXISTS_ERR: &str = "The current directory contains the file `Cargo.toml`.
 
-If you already initialized Rustlings, run the command `rustlings` for instructions on getting started with the exercises.
-Otherwise, please run `rustlings init` again in another directory.";
+If you already initialized ZKlings, run the command `zklings` for instructions on getting started with the exercises.
+Otherwise, please run `zklings init` again in another directory.";
 
 const RUSTLINGS_DIR_ALREADY_EXISTS_ERR: &str =
-    "A directory with the name `rustlings` already exists in the current directory.
-You probably already initialized Rustlings.
-Run `cd rustlings`
-Then run `rustlings` again";
+    "A directory with the name `zklings` already exists in the current directory.
+You probably already initialized ZKlings.
+Run `cd zklings`
+Then run `zklings` again";
 
-const POST_INIT_MSG: &str = "Run `cd rustlings` to go into the generated directory.
-Then run `rustlings` to get started.";
+const POST_INIT_MSG: &str = "Run `cd zklings` to go into the generated directory.
+Then run `zklings` to get started.";

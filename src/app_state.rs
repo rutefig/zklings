@@ -16,7 +16,7 @@ use crate::{
     DEBUG_PROFILE,
 };
 
-const STATE_FILE_NAME: &str = ".rustlings-state.txt";
+const STATE_FILE_NAME: &str = ".zklings-state.txt";
 const BAD_INDEX_ERR: &str = "The current exercise index is higher than the number of exercises";
 
 #[must_use]
