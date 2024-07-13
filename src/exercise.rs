@@ -2,7 +2,11 @@ use anyhow::Result;
 use crossterm::style::{style, StyledContent, Stylize};
 use markdown::{mdast::Node, to_mdast, ParseOptions};
 use std::{
-    fmt::{self, Display, Formatter}, fs, io::Write, path::{Path, PathBuf}, process::Command
+    fmt::{self, Display, Formatter},
+    fs,
+    io::Write,
+    path::{Path, PathBuf},
+    process::Command,
 };
 
 use crate::{
@@ -72,7 +76,7 @@ impl Exercise {
 
     pub fn is_md(&self) -> bool {
         self.ext == "md"
-    } 
+    }
 }
 
 impl Display for Exercise {
@@ -173,9 +177,9 @@ pub trait RunnableExercise {
             output,
             circuit_dir,
         };
-    
+
         let compile_success = compile_cmd.run()?;
-    
+
         if !compile_success {
             return Ok(false);
         }
@@ -198,22 +202,30 @@ pub trait RunnableExercise {
     fn run_markdown(&self, output: &mut Vec<u8>) -> Result<bool> {
         let user_content = fs::read_to_string(self.path())?;
         let solution_content = fs::read_to_string(self.sol_path())?;
-
+    
+        println!("User content:\n{}", user_content);
+        println!("Solution content:\n{}", solution_content);
+    
         let user_ast = to_mdast(&user_content, &ParseOptions::gfm()).unwrap();
         let solution_ast = to_mdast(&solution_content, &ParseOptions::gfm()).unwrap();
-
-        let (user_answer, _) = self.extract_question_and_answer(&user_ast)?;
-        let (_, correct_answer) = self.extract_question_and_answer(&solution_ast)?;
-
-        let success = user_answer.trim() == correct_answer.trim();
+    
+        let (user_question, user_answer) = self.extract_question_and_answer(&user_ast)?;
+        let (solution_question, solution_answer) = self.extract_question_and_answer(&solution_ast)?;
+    
+        println!("User question: '{}'\nUser answer: '{}'", user_question.trim(), user_answer.trim());
+        println!("Solution question: '{}'\nSolution answer: '{}'", solution_question.trim(), solution_answer.trim());
+    
+        let success = user_answer.trim() == solution_answer.trim();
         if success {
             writeln!(output, "Correct! Your solution matches the expected answer.")?;
+            writeln!(output, "Your answer: '{}'", user_answer.trim())?;
         } else {
-            writeln!(output, "Incorrect. Your answer doesn't match the expected solution.")?;
-            writeln!(output, "Your answer: {}", user_answer.trim())?;
-            // writeln!(output, "Expected answer: {}", correct_answer.trim())?;
+            writeln!(output, "{}", "Fix me!".red())?;
+            writeln!(output, "Your answer doesn't match the expected solution.")?;
+            writeln!(output, "Your answer: '{}'", user_answer.trim())?;
+            writeln!(output, "Check the file below and write the correct solution to the proposed problem.")?;
         }
-
+    
         Ok(success)
     }
 
@@ -223,7 +235,7 @@ pub trait RunnableExercise {
         let mut question = String::new();
         let mut answer = String::new();
         let mut in_question = false;
-
+    
         if let Node::Root(root) = ast {
             for child in &root.children {
                 match child {
@@ -234,27 +246,30 @@ pub trait RunnableExercise {
                                 question.push_str(&text.value);
                             }
                         }
-                    },
+                    }
                     Node::Paragraph(para) if in_question => {
                         for child in &para.children {
                             if let Node::Text(text) = child {
                                 question.push_str(&text.value);
                             }
                         }
-                    },
-                    Node::Code(code) => {
-                        answer = code.value.clone();
+                    }
+                    Node::Code(code) if code.lang.as_deref() == Some("math") => {
+                        answer = code.value.trim().to_string();
                         break;
-                    },
+                    }
                     _ => {}
                 }
             }
         }
-
+    
         if question.is_empty() || answer.is_empty() {
             anyhow::bail!("Failed to extract question or answer from markdown");
         }
-
+    
+        println!("Extracted question: '{}'", question.trim());
+        println!("Extracted answer: '{}'", answer.trim());
+    
         Ok((question, answer))
     }
 

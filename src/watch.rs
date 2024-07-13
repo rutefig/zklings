@@ -115,7 +115,7 @@ pub fn watch(
 }
 
 const QUIT_MSG: &[u8] = b"
-We hope you're enjoying learning Rust!
+We hope you're enjoying learning ZK!
 If you want to continue working on the exercises at a later point, you can simply run `zklings` again.
 ";
 

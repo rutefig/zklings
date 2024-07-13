@@ -75,7 +75,7 @@ ext = "md"
 dir = "math"
 test = false
 hint = """
-Calculate a basic operation in Modular Arithmetic.
+The modulo operation gives the remainder after division.
 """
 
 [[exercises]]
