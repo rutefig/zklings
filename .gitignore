@@ -24,3 +24,8 @@ public/
 
 # Ignore the solutions for now
 # solutions/
+
+# Ignore circom build artifacts
+exercises/circom/*/*.r1cs
+exercises/circom/*/*.sym
+exercises/circom/*/*_js

@@ -164,36 +164,44 @@ pub trait RunnableExercise {
     }
 
     /// Function for running Circom exercises
-    fn run_circom(&self, output: &mut Vec<u8>, target_dir: &Path) -> Result<bool> {
+    fn run_circom(&self, output: &mut Vec<u8>, _target_dir: &Path) -> Result<bool> {
         writeln!(output, "{}", "Compiling Circom circuit...".underlined())?;
-
+    
+        let path = self.path().clone();
+        let full_path = Path::new(&path);
+        let circuit_dir = full_path.parent().unwrap_or(Path::new(""));
+        let circuit_file = full_path.file_name().unwrap_or_default();
+    
+        writeln!(output, "Circuit directory: {:?}", circuit_dir)?;
+        writeln!(output, "Circuit file: {:?}", circuit_file)?;
+    
         let mut compile_cmd = CircomCmd {
-            subcommand: "compile",
+            subcommand: "",
             args: &["--r1cs", "--wasm", "--sym"],
-            circuit_name: self.name(),
+            circuit_name: circuit_file.to_str().unwrap_or(self.name()),
             description: "Compiling Circom circuit",
             output,
-            circuit_dir: target_dir,
+            circuit_dir,
         };
-
+    
         let compile_success = compile_cmd.run()?;
-
+    
         if !compile_success {
             return Ok(false);
         }
-
+    
         writeln!(output, "{}", "Generating proof...".underlined())?;
-
+    
         // Here you would implement the logic to generate a proof
         // This is a placeholder and would need to be expanded based on your specific requirements
         let proof_success = true;
-
+    
         writeln!(output, "{}", "Verifying proof...".underlined())?;
-
+    
         // Here you would implement the logic to verify the proof
         // This is a placeholder and would need to be expanded based on your specific requirements
         let verify_success = true;
-
+    
         Ok(compile_success && proof_success && verify_success)
     }
 

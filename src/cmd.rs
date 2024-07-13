@@ -88,11 +88,9 @@ pub struct CircomCmd<'a> {
 }
 
 impl<'a> CircomCmd<'a> {
-    /// Run Circom command for compiling, proving, or verifying
     pub fn run(&mut self) -> Result<bool> {
         let mut cmd = Command::new("circom");
         cmd.current_dir(self.circuit_dir)
-            .arg(self.subcommand)
             .arg(self.circuit_name)
             .args(self.args);
 

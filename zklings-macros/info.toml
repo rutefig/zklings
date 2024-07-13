@@ -92,7 +92,7 @@ Calculate the negative of a number in Modular Arithmetic.
 [[exercises]]
 name = "01_simple_addition"
 ext = "circom"
-dir = "circom"
+dir = "circom/01_simple_addition"
 test = false
 hint = """
 Need to write circuit."""
