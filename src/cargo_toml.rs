@@ -43,7 +43,9 @@ pub fn append_bins(
             buf.push(b'/');
         }
         buf.extend_from_slice(exercise_info.name.as_bytes());
-        buf.extend_from_slice(b".rs\" },\n");
+        buf.extend_from_slice(b".");
+        buf.extend_from_slice(exercise_info.ext.as_bytes());
+        buf.extend_from_slice(b"\" },\n");
 
         let sol_path = exercise_info.sol_path();
         if !Path::new(&sol_path).exists() {
@@ -61,7 +63,9 @@ pub fn append_bins(
             buf.push(b'/');
         }
         buf.extend_from_slice(exercise_info.name.as_bytes());
-        buf.extend_from_slice(b".rs\" },\n");
+        buf.extend_from_slice(b".");
+        buf.extend_from_slice(exercise_info.ext.as_bytes());
+        buf.extend_from_slice(b"\" },\n");
     }
 }
 
@@ -107,6 +111,7 @@ mod tests {
         let exercise_infos = [
             ExerciseInfo {
                 name: String::from("1"),
+                ext: String::from("rs"),
                 dir: None,
                 test: true,
                 strict_clippy: true,
@@ -115,6 +120,7 @@ mod tests {
             },
             ExerciseInfo {
                 name: String::from("2"),
+                ext: String::from("rs"),
                 dir: Some(String::from("d")),
                 test: false,
                 strict_clippy: false,

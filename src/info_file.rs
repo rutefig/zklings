@@ -9,6 +9,8 @@ use crate::{embedded::EMBEDDED_FILES, exercise::RunnableExercise};
 pub struct ExerciseInfo {
     /// Exercise's unique name.
     pub name: String,
+    /// Exercise's extension.
+    pub ext: String,
     /// Exercise's directory name inside the `exercises/` directory.
     pub dir: Option<String>,
     /// Run `cargo test` on the exercise.
@@ -48,7 +50,7 @@ impl ExerciseInfo {
         };
 
         path.push_str(&self.name);
-        path.push_str(".rs");
+        path.push_str(format!(".{}", self.ext).as_str());
 
         path
     }
@@ -72,7 +74,7 @@ impl ExerciseInfo {
         };
 
         path.push_str(&self.name);
-        path.push_str(".rs");
+        path.push_str(format!(".{}", self.ext).as_str());
 
         path
     }

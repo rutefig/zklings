@@ -2,8 +2,10 @@
 bin = [
   { name = "intro1", path = "../exercises/00_intro/intro1.rs" },
   { name = "intro1_sol", path = "../solutions/00_intro/intro1.rs" },
-  { name = "01_simple_question", path = "../exercises/math/01_simple_question.rs" },
-  { name = "01_simple_addition", path = "../exercises/circom/01_simple_addition.rs" },
+  { name = "01_simple_question", path = "../exercises/math/01_simple_question.md" },
+  { name = "01_simple_question_sol", path = "../solutions/math/01_simple_question.md" },
+  { name = "01_simple_addition", path = "../exercises/circom/01_simple_addition.circom" },
+  { name = "01_simple_addition_sol", path = "../solutions/circom/01_simple_addition.circom" },
 ]
 
 [package]

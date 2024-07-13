@@ -50,6 +50,7 @@ fn run_bin(bin_name: &str, output: &mut Vec<u8>, target_dir: &Path) -> Result<bo
 pub struct Exercise {
     pub dir: Option<&'static str>,
     pub name: &'static str,
+    pub ext: &'static str,
     /// Path of the exercise file starting with the `exercises/` directory.
     pub path: &'static str,
     pub test: bool,

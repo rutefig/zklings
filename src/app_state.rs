@@ -5,7 +5,7 @@ use std::{
     fs::{self, File},
     io::{Read, StdoutLock, Write},
     path::{Path, PathBuf},
-    process::{Command, Stdio},
+    process::{Command, Stdio}, thread::current,
 };
 
 use crate::{
@@ -137,9 +137,12 @@ impl AppState {
 
                 let hint = exercise_info.hint.trim().to_owned();
 
+                let ext = exercise_info.ext.leak();
+
                 Exercise {
                     dir,
                     name,
+                    ext,
                     path,
                     test: exercise_info.test,
                     strict_clippy: exercise_info.strict_clippy,
@@ -348,9 +351,9 @@ impl AppState {
                 .map(Some)
         } else {
             let solution_path = if let Some(dir) = current_exercise.dir {
-                format!("solutions/{dir}/{}.rs", current_exercise.name)
+                format!("solutions/{dir}/{}.{}", current_exercise.name, current_exercise.ext)
             } else {
-                format!("solutions/{}.rs", current_exercise.name)
+                format!("solutions/{}.{}", current_exercise.name, current_exercise.ext)
             };
 
             if Path::new(&solution_path).exists() {
@@ -459,6 +462,7 @@ mod tests {
         Exercise {
             dir: None,
             name: "0",
+            ext: "rs",
             path: "exercises/0.rs",
             test: false,
             strict_clippy: false,
