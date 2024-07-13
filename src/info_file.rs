@@ -87,6 +87,11 @@ impl RunnableExercise for ExerciseInfo {
     }
 
     #[inline]
+    fn path(&self) -> String {
+        self.path()
+    }
+
+    #[inline]
     fn strict_clippy(&self) -> bool {
         self.strict_clippy
     }
@@ -94,6 +99,18 @@ impl RunnableExercise for ExerciseInfo {
     #[inline]
     fn test(&self) -> bool {
         self.test
+    }
+
+    fn is_rust(&self) -> bool {
+        self.ext == "rs"
+    }
+
+    fn is_circom(&self) -> bool {
+        self.ext == "circom"
+    }
+
+    fn is_md(&self) -> bool {
+        self.ext == "md"
     }
 }
 

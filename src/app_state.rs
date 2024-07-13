@@ -5,7 +5,7 @@ use std::{
     fs::{self, File},
     io::{Read, StdoutLock, Write},
     path::{Path, PathBuf},
-    process::{Command, Stdio}, thread::current,
+    process::{Command, Stdio},
 };
 
 use crate::{

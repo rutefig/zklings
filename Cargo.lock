@@ -578,13 +578,11 @@ checksum = "9bbb1b0dbe51f0976eaa466f4e0bdc11856fe8008aee26f30ccec8de15b28e38"
 
 [[package]]
 name = "markdown"
-version = "0.3.0"
+version = "1.0.0-alpha.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ef3aab6a1d529b112695f72beec5ee80e729cb45af58663ec902c8fac764ecdd"
+checksum = "4e61c5c85b392273c4d4ea546e6399ace3e3db172ab01b6de8f3d398d1dbd2ec"
 dependencies = [
- "lazy_static",
- "pipeline",
- "regex",
+ "unicode-id",
 ]
 
 [[package]]
@@ -776,12 +774,6 @@ dependencies = [
  "pest",
  "sha2",
 ]
-
-[[package]]
-name = "pipeline"
-version = "0.5.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d15b6607fa632996eb8a17c9041cb6071cb75ac057abd45dece578723ea8c7c0"
 
 [[package]]
 name = "ppv-lite86"
@@ -1210,6 +1202,12 @@ name = "ucd-trie"
 version = "0.1.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ed646292ffc8188ef8ea4d1e0e0150fb15a5c2e12ad9b8fc191ae7a8a7f3c4b9"
+
+[[package]]
+name = "unicode-id"
+version = "0.3.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b1b6def86329695390197b82c1e244a54a131ceb66c996f2088a3876e2ae083f"
 
 [[package]]
 name = "unicode-ident"
