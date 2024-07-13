@@ -92,6 +92,11 @@ impl RunnableExercise for ExerciseInfo {
     }
 
     #[inline]
+    fn sol_path(&self) -> String {
+        self.sol_path()
+    }
+
+    #[inline]
     fn strict_clippy(&self) -> bool {
         self.strict_clippy
     }

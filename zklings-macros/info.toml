@@ -60,7 +60,7 @@ Thank you for using zklings, and best of luck in your Zero-Knowledge journey!"""
 [[exercises]]
 name = "intro1"
 ext = "rs"
-dir = "00_intro"
+dir = "intro"
 test = false
 skip_check_unsolved = true
 hint = """
@@ -70,12 +70,22 @@ You might need to press ENTER after typing `n`."""
 # MATH
 
 [[exercises]]
-name = "01_simple_question"
+name = "01_basic_modulo"
 ext = "md"
 dir = "math"
 test = false
 hint = """
-Need to calculate something."""
+Calculate a basic operation in Modular Arithmetic.
+"""
+
+[[exercises]]
+name = "02_negative_modulo"
+ext = "md"
+dir = "math"
+test = false
+hint = """
+Calculate the negative of a number in Modular Arithmetic.
+"""
 
 # CIRCOM
 

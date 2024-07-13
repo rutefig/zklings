@@ -2,7 +2,7 @@ use anyhow::Result;
 use crossterm::style::{style, StyledContent, Stylize};
 use markdown::{mdast::Node, to_mdast, ParseOptions};
 use std::{
-    fmt::{self, Display, Formatter}, fs, io::{self, Write}, path::{Path, PathBuf}, process::Command
+    fmt::{self, Display, Formatter}, fs, io::Write, path::{Path, PathBuf}, process::Command
 };
 
 use crate::{
@@ -196,28 +196,28 @@ pub trait RunnableExercise {
     }
 
     fn run_markdown(&self, output: &mut Vec<u8>) -> Result<bool> {
-        let content = fs::read_to_string(self.path())?;
-        let options = ParseOptions::gfm();
-        let ast = to_mdast(&content, &options).unwrap();
-        
-        let (question, answer) = self.extract_question_and_answer(&ast)?;
+        let user_content = fs::read_to_string(self.path())?;
+        let solution_content = fs::read_to_string(self.sol_path())?;
 
-        writeln!(output, "{}", question.trim())?;
-        print!("Your answer: ");
-        io::stdout().flush()?;
+        let user_ast = to_mdast(&user_content, &ParseOptions::gfm()).unwrap();
+        let solution_ast = to_mdast(&solution_content, &ParseOptions::gfm()).unwrap();
 
-        let mut user_input = String::new();
-        io::stdin().read_line(&mut user_input)?;
+        let (user_answer, _) = self.extract_question_and_answer(&user_ast)?;
+        let (_, correct_answer) = self.extract_question_and_answer(&solution_ast)?;
 
-        let success = user_input.trim() == answer.trim();
+        let success = user_answer.trim() == correct_answer.trim();
         if success {
-            writeln!(output, "Correct!")?;
+            writeln!(output, "Correct! Your solution matches the expected answer.")?;
         } else {
-            writeln!(output, "Incorrect. The correct answer was: {}", answer.trim())?;
+            writeln!(output, "Incorrect. Your answer doesn't match the expected solution.")?;
+            writeln!(output, "Your answer: {}", user_answer.trim())?;
+            // writeln!(output, "Expected answer: {}", correct_answer.trim())?;
         }
 
         Ok(success)
     }
+
+    fn sol_path(&self) -> String;
 
     fn extract_question_and_answer(&self, ast: &Node) -> Result<(String, String)> {
         let mut question = String::new();
@@ -319,5 +319,13 @@ impl RunnableExercise for Exercise {
     #[inline]
     fn is_md(&self) -> bool {
         self.is_md()
+    }
+
+    #[inline]
+    fn sol_path(&self) -> String {
+        let exercise_path = self.path();
+        println!("PATH: {}", self.path);
+        let sol_path = exercise_path.replace("exercises", "solutions");
+        sol_path
     }
 }
