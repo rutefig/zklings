@@ -164,9 +164,7 @@ pub trait RunnableExercise {
     }
 
     /// Function for running Circom exercises
-    fn run_circom(&self, output: &mut Vec<u8>) -> Result<bool> {
-        // TODO: check this
-        let circuit_dir = Path::new("path/to/your/circom/circuits");
+    fn run_circom(&self, output: &mut Vec<u8>, target_dir: &Path) -> Result<bool> {
         writeln!(output, "{}", "Compiling Circom circuit...".underlined())?;
 
         let mut compile_cmd = CircomCmd {
@@ -175,7 +173,7 @@ pub trait RunnableExercise {
             circuit_name: self.name(),
             description: "Compiling Circom circuit",
             output,
-            circuit_dir,
+            circuit_dir: target_dir,
         };
 
         let compile_success = compile_cmd.run()?;
@@ -280,7 +278,7 @@ pub trait RunnableExercise {
         if self.is_rust() {
             self.run(self.name(), output, target_dir)
         } else if self.is_circom() {
-            self.run_circom(output)
+            self.run_circom(output, target_dir)
         } else if self.is_md() {
             self.run_markdown(output)
         } else {
