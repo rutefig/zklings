@@ -6,8 +6,8 @@ bin = [
   { name = "01_basic_modulo_sol", path = "../solutions/math/01_basic_modulo.md" },
   { name = "02_negative_modulo", path = "../exercises/math/02_negative_modulo.md" },
   { name = "02_negative_modulo_sol", path = "../solutions/math/02_negative_modulo.md" },
-  { name = "01_simple_addition", path = "../exercises/circom/01_simple_addition.circom" },
-  { name = "01_simple_addition_sol", path = "../solutions/circom/01_simple_addition.circom" },
+  { name = "01_signals", path = "../exercises/circom/01_signals/01_signals.circom" },
+  { name = "01_signals_sol", path = "../solutions/circom/01_signals/01_signals.circom" },
 ]
 
 [package]

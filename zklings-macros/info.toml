@@ -90,9 +90,9 @@ Calculate the negative of a number in Modular Arithmetic.
 # CIRCOM
 
 [[exercises]]
-name = "01_simple_addition"
+name = "01_signals"
 ext = "circom"
-dir = "circom/01_simple_addition"
+dir = "circom/01_signals"
 test = false
 hint = """
 Need to write circuit."""
