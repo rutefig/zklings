@@ -5,6 +5,7 @@ use serde::Deserialize;
 #[derive(Deserialize)]
 struct ExerciseInfo {
     name: String,
+    ext: String,
     dir: String,
 }
 
@@ -22,10 +23,10 @@ pub fn include_files(_: TokenStream) -> TokenStream {
 
     let exercise_files = exercises
         .iter()
-        .map(|exercise| format!("../exercises/{}/{}.rs", exercise.dir, exercise.name));
+        .map(|exercise| format!("../exercises/{}/{}.{}", exercise.dir, exercise.name, exercise.ext));
     let solution_files = exercises
         .iter()
-        .map(|exercise| format!("../solutions/{}/{}.rs", exercise.dir, exercise.name));
+        .map(|exercise| format!("../solutions/{}/{}.{}", exercise.dir, exercise.name, exercise.ext));
 
     let mut dirs = Vec::with_capacity(32);
     let mut dir_inds = vec![0; exercises.len()];
