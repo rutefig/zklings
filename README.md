@@ -29,6 +29,8 @@ For now you will need to clone the repo and run the following command in the roo
 cargo run --bin zklings
 ```
 
+Before running the command, make sure you have the latest Rust version by running `rustup update`. And if you want to run circom circuits, you need to have [circom](https://docs.circom.io/getting-started/installation/) installed on your machine.
+
 ### Still not ready
 
 The following command will download and compile ZKlings:
