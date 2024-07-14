@@ -63,7 +63,7 @@ serde_json = "1.0.120"
 serde.workspace = true
 toml_edit.workspace = true
 circom_compiler = { git = "https://github.com/iden3/circom.git", branch = "master", package = "compiler", version = "2.1.9" }
-halo2_proofs = { git = "https://github.com/privacy-scaling-explorations/halo2.git" }
+halo2_proofs = { git = "https://github.com/privacy-scaling-explorations/halo2.git", version = "0.3.0" }
 markdown = "1.0.0-alpha.18"
 
 [dev-dependencies]
