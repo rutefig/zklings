@@ -59,8 +59,10 @@ cd zklings
 zklings
 ```
 
-Working environment
-Editor
+## Working environment
+
+### Editor
+
 We recommend using VS Code with the rust-analyzer plugin.
 Any editor that supports rust-analyzer should be sufficient for working on the exercises.
 Doing exercises
@@ -79,7 +81,9 @@ Watch Mode
 After initialization, ZKLings can be launched by simply running the command zklings.
 This will start the watch mode which walks you through the exercises in a predefined order.
 It will rerun the current exercise automatically every time you change the exercise's file in the exercises/ directory.
-Exercise List
+
+### Exercise List
+
 In the watch mode (after launching zklings), you can enter l to open the interactive exercise list.
 The list allows you to…
 
@@ -91,8 +95,9 @@ See the footer of the list for all possible keys.
 Continuing On
 Once you've completed ZKLings, put your new knowledge to good use!
 Continue practicing your ZKP skills by building your own projects, contributing to ZKLings, or exploring more advanced ZKP concepts and implementations.
-Uninstalling ZKLings
-If you want to remove ZKLings from your system, run the following command:
+## Uninstalling ZKLings
+
+NOT APPLICABLE YET. If you want to remove ZKLings from your system, run the following command:
 
 ```bash
 cargo uninstall zklings
