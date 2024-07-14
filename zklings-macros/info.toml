@@ -87,6 +87,15 @@ hint = """
 Calculate the negative of a number in Modular Arithmetic.
 """
 
+[[exercises]]
+name = "03_modular_addition"
+ext = "md"
+dir = "math"
+test = false
+hint = """
+Calculate the sum of two numbers in Modular Arithmetic.
+"""
+
 # CIRCOM
 
 [[exercises]]
