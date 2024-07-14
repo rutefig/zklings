@@ -158,8 +158,9 @@ When you are done experimenting, enter `n` to move on to the next exercise 👽"
         )?;
         writeln!(
             self.writer,
-            "{progress_bar}Current exercise: {}",
+            "{progress_bar}Current exercise: {}\nSome Theory: {}",
             self.app_state.current_exercise().terminal_link(),
+            self.app_state.current_exercise().readme_link(),
         )?;
 
         self.show_prompt()?;

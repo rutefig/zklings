@@ -66,6 +66,12 @@ impl Exercise {
         style(TerminalFileLink(self.path)).underlined().blue()
     }
 
+    pub fn readme_link(&self) -> StyledContent<TerminalFileLink<'static>> {
+        let path = self.path.replace(self.ext, "").replace(self.name, "README.md");
+        let boxed_path = Box::leak(path.into_boxed_str());
+        style(TerminalFileLink(boxed_path)).underlined().blue()
+    }
+
     pub fn is_rust(&self) -> bool {
         self.ext == "rs"
     }
