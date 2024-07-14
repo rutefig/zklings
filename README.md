@@ -1,143 +1,92 @@
-<div class="oranda-hide">
+# ZKlings 👽❤️
 
-# Rustlings 🦀❤️
+Welcome to ZKlings!
+This project contains small exercises to get you familiar with Zero-Knowledge Proofs (ZKP) concepts, modular arithmetic and group theory and circuit implementation.
+This includes working with various ZKP libraries and understanding the underlying mathematics!
+Right now we support Rust (Halo2) and Circom.
+This project is still in its early stages, so please be patient with us 🙏🏼 We have much more coming on our roadmap.
 
-</div>
+Please give your feedback as we are always looking to improve the quality of the exercises and the learning experience.
 
-Greetings and welcome to Rustlings.
-This project contains small exercises to get you used to reading and writing Rust code.
-This includes reading and responding to compiler messages!
+It is recommended to do the ZKlings exercises in parallel to reading resources on Zero-Knowledge Proofs and cryptography. Some recommended resources include:
 
-It is recommended to do the Rustlings exercises in parallel to reading [the official Rust book](https://doc.rust-lang.org/book/), the most comprehensive resource for learning Rust 📚️
-
-[Rust By Example](https://doc.rust-lang.org/rust-by-example/) is another recommended resource that you might find helpful.
-It contains code examples and exercises similar to Rustlings, but online.
+- [Rare Skills ZK Book](https://www.rareskills.io/zk-book)
+- [Learn 0xPARC](https://learn.0xparc.org/)
 
 ## Getting Started
 
 ### Installing Rust
 
-Before installing Rustlings, you need to have _Rust installed_.
+Before installing ZKLings, you need to have _Rust installed_.
 Visit [www.rust-lang.org/tools/install](https://www.rust-lang.org/tools/install) for further instructions on installing Rust.
 This will also install _Cargo_, Rust's package/project manager.
 
-> 🐧 If you're on Linux, make sure you've installed `gcc` (for a linker).
->
-> Deb: `sudo apt install gcc`.
-> Dnf: `sudo dnf install gcc`.
+### Installing ZKlings
 
-> 🍎 If you're on MacOS, make sure you've installed Xcode and its developer tools by running `xcode-select --install`.
-
-### Installing Rustlings
-
-The following command will download and compile Rustlings:
+The following command will download and compile ZKlings:
 
 ```bash
-cargo install rustlings
+cargo install zklings
 ```
 
-<details>
-<summary><strong>If the installation fails…</strong> (<em>click to expand</em>)</summary>
+If the installation fails…
 
-- Make sure you have the latest Rust version by running `rustup update`
-- Try adding the `--locked` flag: `cargo install rustlings --locked`
-- Otherwise, please [report the issue](https://github.com/rust-lang/rustlings/issues/new)
+Make sure you have the latest Rust version by running rustup update
+Try adding the --locked flag: cargo install zklings --locked
+Otherwise, please report the issue in our GitHub repository
 
-</details>
-
-### Initialization
-
-After installing Rustlings, run the following command to initialize the `rustlings/` directory:
+Initialization
+After installing ZKLings, run the following command to initialize the zklings/ directory:
 
 ```bash
-rustlings init
+zklings init
 ```
 
-Now, go into the newly initialized directory and launch Rustlings for further instructions on getting started with the exercises:
+Now, go into the newly initialized directory and launch ZKLings for further instructions on getting started with the exercises:
 
 ```bash
-cd rustlings/
-rustlings
+cd zklings
+zklings
 ```
 
-## Working environment
-
-### Editor
-
-Our general recommendation is [VS Code](https://code.visualstudio.com/) with the [rust-analyzer plugin](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer).
-But any editor that supports [rust-analyzer](https://rust-analyzer.github.io/) should be enough for working on the exercises.
-
-### Terminal
-
-While working with Rustlings, please use a modern terminal for the best user experience.
-The default terminal on Linux and Mac should be sufficient.
-On Windows, we recommend the [Windows Terminal](https://aka.ms/terminal).
-
-If you use VS Code, the builtin terminal should also be fine.
-
-## Doing exercises
-
-The exercises are sorted by topic and can be found in the subdirectory `exercises/<topic>`.
-For every topic, there is an additional `README.md` file with some resources to get you started on the topic.
+Working environment
+Editor
+We recommend using VS Code with the rust-analyzer plugin.
+Any editor that supports rust-analyzer should be sufficient for working on the exercises.
+Doing exercises
+The exercises are sorted by topic and can be found in the subdirectory exercises/<topic>.
+For every topic, there is an additional README.md file with some resources to get you started on the topic.
 We highly recommend that you have a look at them before you start 📚️
+Exercises may include:
 
-Most exercises contain an error that keeps them from compiling, and it's up to you to fix it!
-Some exercises contain tests that need to pass for the exercise to be done ✅
+Rust code that needs to be completed or fixed
+Circom circuits that need to be implemented
+Mathematical problems related to ZKP concepts
 
-Search for `TODO` and `todo!()` to find out what you need to change.
-Ask for hints by entering `h` in the _watch mode_ 💡
-
-### Watch Mode
-
-After [initialization](#initialization), Rustlings can be launched by simply running the command `rustlings`.
-
-This will start the _watch mode_ which walks you through the exercises in a predefined order (what we think is best for newcomers).
-It will rerun the current exercise automatically every time you change the exercise's file in the `exercises/` directory.
-
-<details>
-<summary><strong>If detecting file changes in the <code>exercises/</code> directory fails…</strong> (<em>click to expand</em>)</summary>
-
-> You can add the **`--manual-run`** flag (`rustlings --manual-run`) to manually rerun the current exercise by entering `r` in the watch mode.
->
-> Please [report the issue](https://github.com/rust-lang/rustlings/issues/new) with some information about your operating system and whether you run Rustlings in a container or virtual machine (e.g. WSL).
-
-</details>
-
-### Exercise List
-
-In the [watch mode](#watch-mode) (after launching `rustlings`), you can enter `l` to open the interactive exercise list.
-
+Search for TODO and todo!() to find out what you need to change.
+Ask for hints by entering h in the watch mode 💡
+Watch Mode
+After initialization, ZKLings can be launched by simply running the command zklings.
+This will start the watch mode which walks you through the exercises in a predefined order.
+It will rerun the current exercise automatically every time you change the exercise's file in the exercises/ directory.
+Exercise List
+In the watch mode (after launching zklings), you can enter l to open the interactive exercise list.
 The list allows you to…
 
-- See the status of all exercises (done or pending)
-- `c`: Continue at another exercise (temporarily skip some exercises or go back to a previous one)
-- `r`: Reset status and file of an exercise (you need to _reload/reopen_ its file in your editor afterwards)
+See the status of all exercises (done or pending)
+c: Continue at another exercise (temporarily skip some exercises or go back to a previous one)
+r: Reset status and file of an exercise (you need to reload/reopen its file in your editor afterwards)
 
 See the footer of the list for all possible keys.
-
-## Continuing On
-
-Once you've completed Rustlings, put your new knowledge to good use!
-Continue practicing your Rust skills by building your own projects, contributing to Rustlings, or finding other open-source projects to contribute to.
-
-## Third-Party Exercises
-
-Do you want to create your own set of Rustlings exercises to focus on some specific topic?
-Or do you want to translate the original Rustlings exercises?
-Then follow the link to the guide about [third-party exercises](https://github.com/rust-lang/rustlings/blob/main/THIRD_PARTY_EXERCISES.md)!
-
-## Uninstalling Rustlings
-
-If you want to remove Rustlings from your system, run the following command:
+Continuing On
+Once you've completed ZKLings, put your new knowledge to good use!
+Continue practicing your ZKP skills by building your own projects, contributing to ZKLings, or exploring more advanced ZKP concepts and implementations.
+Uninstalling ZKLings
+If you want to remove ZKLings from your system, run the following command:
 
 ```bash
-cargo uninstall rustlings
+cargo uninstall zklings
 ```
 
-## Contributing
-
-See [CONTRIBUTING.md](https://github.com/rust-lang/rustlings/blob/main/CONTRIBUTING.md) 🔗
-
-## Contributors ✨
-
-Thanks to [all the wonderful contributors](https://github.com/rust-lang/rustlings/graphs/contributors) 🎉
+Contributing
+We welcome contributions! Please see our CONTRIBUTING.md file for details on how to contribute.
