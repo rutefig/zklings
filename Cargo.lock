@@ -267,7 +267,7 @@ checksum = "4b82cf0babdbd58558212896d1a4272303a57bdb245c2bf1147185fb45640e70"
 [[package]]
 name = "code_producers"
 version = "2.1.9"
-source = "git+https://github.com/iden3/circom.git?branch=master#9f3da35a8ac3107190f8c85c8cf3ea1a0f8780a4"
+source = "git+https://github.com/iden3/circom.git#9f3da35a8ac3107190f8c85c8cf3ea1a0f8780a4"
 dependencies = [
  "handlebars",
  "lz_fnv",
@@ -316,7 +316,7 @@ dependencies = [
 [[package]]
 name = "compiler"
 version = "2.1.9"
-source = "git+https://github.com/iden3/circom.git?branch=master#9f3da35a8ac3107190f8c85c8cf3ea1a0f8780a4"
+source = "git+https://github.com/iden3/circom.git#9f3da35a8ac3107190f8c85c8cf3ea1a0f8780a4"
 dependencies = [
  "code_producers",
  "constant_tracking",
@@ -334,7 +334,7 @@ checksum = "f7144d30dcf0fafbce74250a3963025d8d52177934239851c917d29f1df280c2"
 [[package]]
 name = "constant_tracking"
 version = "2.0.0"
-source = "git+https://github.com/iden3/circom.git?branch=master#9f3da35a8ac3107190f8c85c8cf3ea1a0f8780a4"
+source = "git+https://github.com/iden3/circom.git#9f3da35a8ac3107190f8c85c8cf3ea1a0f8780a4"
 
 [[package]]
 name = "cpufeatures"
@@ -1077,7 +1077,7 @@ dependencies = [
 [[package]]
 name = "program_structure"
 version = "2.1.9"
-source = "git+https://github.com/iden3/circom.git?branch=master#9f3da35a8ac3107190f8c85c8cf3ea1a0f8780a4"
+source = "git+https://github.com/iden3/circom.git#9f3da35a8ac3107190f8c85c8cf3ea1a0f8780a4"
 dependencies = [
  "codespan",
  "codespan-reporting",
