@@ -67,7 +67,10 @@ impl Exercise {
     }
 
     pub fn readme_link(&self) -> StyledContent<TerminalFileLink<'static>> {
-        let path = self.path.replace(self.ext, "").replace(self.name, "README.md");
+        let path = self
+            .path
+            .replace(self.ext, "")
+            .replace(self.name, "README.md");
         let boxed_path = Box::leak(path.into_boxed_str());
         style(TerminalFileLink(boxed_path)).underlined().blue()
     }
@@ -172,72 +175,86 @@ pub trait RunnableExercise {
     /// Function for running Circom exercises
     fn run_circom(&self, output: &mut Vec<u8>, _target_dir: &Path) -> Result<bool> {
         writeln!(output, "{}", "Compiling Circom circuit...".underlined())?;
-    
+
         let path = self.path().clone();
         let full_path = Path::new(&path);
         let circuit_dir = full_path.parent().unwrap_or(Path::new(""));
         let circuit_file = full_path.file_name().unwrap_or_default();
-    
+
         writeln!(output, "Circuit directory: {:?}", circuit_dir)?;
         writeln!(output, "Circuit file: {:?}", circuit_file)?;
-    
+
         let mut compile_cmd = CircomCmd {
-            subcommand: "",
             args: &["--r1cs", "--wasm", "--sym"],
             circuit_name: circuit_file.to_str().unwrap_or(self.name()),
             description: "Compiling Circom circuit",
             output,
             circuit_dir,
         };
-    
+
         let compile_success = compile_cmd.run()?;
-    
+
         if !compile_success {
             return Ok(false);
         }
-    
+
         writeln!(output, "{}", "Generating proof...".underlined())?;
-    
+
         // Here you would implement the logic to generate a proof
         // This is a placeholder and would need to be expanded based on your specific requirements
         let proof_success = true;
-    
+
         writeln!(output, "{}", "Verifying proof...".underlined())?;
-    
+
         // Here you would implement the logic to verify the proof
         // This is a placeholder and would need to be expanded based on your specific requirements
         let verify_success = true;
-    
+
         Ok(compile_success && proof_success && verify_success)
     }
 
     fn run_markdown(&self, output: &mut Vec<u8>) -> Result<bool> {
         let user_content = fs::read_to_string(self.path())?;
         let solution_content = fs::read_to_string(self.sol_path())?;
-    
+
         println!("User content:\n{}", user_content);
         println!("Solution content:\n{}", solution_content);
-    
+
         let user_ast = to_mdast(&user_content, &ParseOptions::gfm()).unwrap();
         let solution_ast = to_mdast(&solution_content, &ParseOptions::gfm()).unwrap();
-    
+
         let (user_question, user_answer) = self.extract_question_and_answer(&user_ast)?;
-        let (solution_question, solution_answer) = self.extract_question_and_answer(&solution_ast)?;
-    
-        println!("User question: '{}'\nUser answer: '{}'", user_question.trim(), user_answer.trim());
-        println!("Solution question: '{}'\nSolution answer: '{}'", solution_question.trim(), solution_answer.trim());
-    
+        let (solution_question, solution_answer) =
+            self.extract_question_and_answer(&solution_ast)?;
+
+        println!(
+            "User question: '{}'\nUser answer: '{}'",
+            user_question.trim(),
+            user_answer.trim()
+        );
+        println!(
+            "Solution question: '{}'\nSolution answer: '{}'",
+            solution_question.trim(),
+            solution_answer.trim()
+        );
+
         let success = user_answer.trim() == solution_answer.trim();
         if success {
-            writeln!(output, "Correct! Your solution matches the expected answer.")?;
+            writeln!(
+                output,
+                "Correct! Your solution matches the expected answer."
+            )?;
             writeln!(output, "Your answer: '{}'", user_answer.trim())?;
         } else {
             writeln!(output, "{}", "Fix me!".red())?;
             writeln!(output, "Your answer doesn't match the expected solution.")?;
             writeln!(output, "Your answer: '{}'", user_answer.trim())?;
-            writeln!(output, "Check the file below and write the correct solution to the proposed problem.")?;
+            writeln!(
+                output,
+                "Check the file below and write the correct solution to the proposed problem."
+            )?;
         }
-    
+
         Ok(success)
     }
 
@@ -247,7 +264,7 @@ pub trait RunnableExercise {
         let mut question = String::new();
         let mut answer = String::new();
         let mut in_question = false;
-    
+
         if let Node::Root(root) = ast {
             for child in &root.children {
                 match child {
@@ -274,14 +291,14 @@ pub trait RunnableExercise {
                 }
             }
         }
-    
+
         if question.is_empty() || answer.is_empty() {
             anyhow::bail!("Failed to extract question or answer from markdown");
         }
-    
+
         println!("Extracted question: '{}'", question.trim());
         println!("Extracted answer: '{}'", answer.trim());
-    
+
         Ok((question, answer))
     }
 
@@ -352,7 +369,7 @@ impl RunnableExercise for Exercise {
     fn sol_path(&self) -> String {
         let exercise_path = self.path();
         println!("PATH: {}", self.path);
-        let sol_path = exercise_path.replace("exercises", "solutions");
-        sol_path
+
+        exercise_path.replace("exercises", "solutions")
     }
 }

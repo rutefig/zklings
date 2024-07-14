@@ -21,12 +21,18 @@ pub fn include_files(_: TokenStream) -> TokenStream {
         .expect("Failed to parse `info.toml`")
         .exercises;
 
-    let exercise_files = exercises
-        .iter()
-        .map(|exercise| format!("../exercises/{}/{}.{}", exercise.dir, exercise.name, exercise.ext));
-    let solution_files = exercises
-        .iter()
-        .map(|exercise| format!("../solutions/{}/{}.{}", exercise.dir, exercise.name, exercise.ext));
+    let exercise_files = exercises.iter().map(|exercise| {
+        format!(
+            "../exercises/{}/{}.{}",
+            exercise.dir, exercise.name, exercise.ext
+        )
+    });
+    let solution_files = exercises.iter().map(|exercise| {
+        format!(
+            "../solutions/{}/{}.{}",
+            exercise.dir, exercise.name, exercise.ext
+        )
+    });
 
     let mut dirs = Vec::with_capacity(32);
     let mut dir_inds = vec![0; exercises.len()];

@@ -351,9 +351,15 @@ impl AppState {
                 .map(Some)
         } else {
             let solution_path = if let Some(dir) = current_exercise.dir {
-                format!("solutions/{dir}/{}.{}", current_exercise.name, current_exercise.ext)
+                format!(
+                    "solutions/{dir}/{}.{}",
+                    current_exercise.name, current_exercise.ext
+                )
             } else {
-                format!("solutions/{}.{}", current_exercise.name, current_exercise.ext)
+                format!(
+                    "solutions/{}.{}",
+                    current_exercise.name, current_exercise.ext
+                )
             };
 
             if Path::new(&solution_path).exists() {

@@ -26,8 +26,7 @@ pub fn init() -> Result<()> {
         return Err(e.into());
     }
 
-    set_current_dir("zklings")
-        .context("Failed to change the current directory to `zklings/`")?;
+    set_current_dir("zklings").context("Failed to change the current directory to `zklings/`")?;
 
     let info_file = InfoFile::parse()?;
     EMBEDDED_FILES
@@ -63,8 +62,7 @@ pub fn init() -> Result<()> {
     fs::write("Cargo.toml", updated_cargo_toml)
         .context("Failed to create the file `zklings/Cargo.toml`")?;
 
-    fs::write(".gitignore", GITIGNORE)
-        .context("Failed to create the file `zklings/.gitignore`")?;
+    fs::write(".gitignore", GITIGNORE).context("Failed to create the file `zklings/.gitignore`")?;
 
     create_dir(".vscode").context("Failed to create the directory `zklings/.vscode`")?;
     fs::write(".vscode/extensions.json", VS_CODE_EXTENSIONS_JSON)

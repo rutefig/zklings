@@ -77,7 +77,6 @@ impl<'a> CargoCmd<'a> {
 }
 
 pub struct CircomCmd<'a> {
-    pub subcommand: &'a str,
     pub args: &'a [&'a str],
     pub circuit_name: &'a str,
     pub description: &'a str,
@@ -100,8 +99,6 @@ impl<'a> CircomCmd<'a> {
 
 #[cfg(test)]
 mod tests {
-    use std::path::PathBuf;
-
     use super::*;
 
     #[test]
@@ -113,25 +110,5 @@ mod tests {
         run_cmd(cmd, "echo …", &mut output).unwrap();
 
         assert_eq!(output, b"Hello\n\n");
-    }
-
-    // TODO: fix this
-    #[test]
-    fn test_circom_cmd() {
-        let circuit_dir = PathBuf::from("path/to/circom/circuits");
-        let mut output = Vec::new();
-        let mut cmd = CircomCmd {
-            subcommand: "compile",
-            args: &["--r1cs", "--wasm", "--sym"],
-            circuit_name: "test_circuit.circom",
-            description: "Compiling Circom circuit",
-            output: &mut output,
-            circuit_dir: &circuit_dir,
-        };
-
-        // Note: This test will fail if Circom is not installed or the circuit doesn't exist
-        // You might want to mock this or use a sample circuit for testing
-        let result = cmd.run();
-        assert!(result.is_ok());
     }
 }
