@@ -21,7 +21,15 @@ Before installing ZKLings, you need to have _Rust installed_.
 Visit [www.rust-lang.org/tools/install](https://www.rust-lang.org/tools/install) for further instructions on installing Rust.
 This will also install _Cargo_, Rust's package/project manager.
 
-### Installing ZKlings
+### Installing and Running ZKlings
+
+For now you will need to clone the repo and run the following command in the root directory:
+
+```bash
+cargo run --bin zklings
+```
+
+### Still not ready
 
 The following command will download and compile ZKlings:
 
