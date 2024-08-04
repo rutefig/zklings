@@ -96,6 +96,24 @@ hint = """
 Calculate the sum of two numbers in Modular Arithmetic.
 """
 
+[[exercises]]
+name = "04_modular_subtraction"
+ext = "md"
+dir = "math"
+test = false
+hint = """
+Calculate the difference of two numbers in Modular Arithmetic.
+"""
+
+[[exercises]]
+name = "05_negative_subtraction"
+ext = "md"
+dir = "math"
+test = false
+hint = """
+Calculate the negative difference of two numbers in Modular Arithmetic.
+"""
+
 # CIRCOM
 
 [[exercises]]
