@@ -104,4 +104,12 @@ ext = "circom"
 dir = "circom/01_signals"
 test = false
 hint = """
-Need to write circuit."""
+The circuit should have a public output"""
+
+[[exercises]]
+name = "02_signals"
+ext = "circom"
+dir = "circom/01_signals"
+test = false
+hint = """
+Check which signal is being used on the constraints and is not defined"""

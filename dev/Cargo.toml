@@ -10,6 +10,8 @@ bin = [
   { name = "03_modular_addition_sol", path = "../solutions/math/03_modular_addition.md" },
   { name = "01_signals", path = "../exercises/circom/01_signals/01_signals.circom" },
   { name = "01_signals_sol", path = "../solutions/circom/01_signals/01_signals.circom" },
+  { name = "02_signals", path = "../exercises/circom/01_signals/02_signals.circom" },
+  { name = "02_signals_sol", path = "../solutions/circom/01_signals/02_signals.circom" },
 ]
 
 [package]
