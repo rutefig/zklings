@@ -113,3 +113,12 @@ dir = "circom/01_signals"
 test = false
 hint = """
 Check which signal is being used on the constraints and is not defined"""
+
+[[exercises]]
+name = "01_templates"
+ext = "circom"
+dir = "circom/02_templates"
+test = false
+hint = """
+Instantiate the template A with the component keyword and pass the necessary parameters
+"""

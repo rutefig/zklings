@@ -12,6 +12,8 @@ bin = [
   { name = "01_signals_sol", path = "../solutions/circom/01_signals/01_signals.circom" },
   { name = "02_signals", path = "../exercises/circom/01_signals/02_signals.circom" },
   { name = "02_signals_sol", path = "../solutions/circom/01_signals/02_signals.circom" },
+  { name = "01_templates", path = "../exercises/circom/02_templates/01_templates.circom" },
+  { name = "01_templates_sol", path = "../solutions/circom/02_templates/01_templates.circom" },
 ]
 
 [package]
