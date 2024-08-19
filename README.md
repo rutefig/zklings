@@ -12,6 +12,7 @@ It is recommended to do the ZKlings exercises in parallel to reading resources o
 
 - [Rare Skills ZK Book](https://www.rareskills.io/zk-book)
 - [Learn 0xPARC](https://learn.0xparc.org/)
+- [PSE Core Program](https://github.com/privacy-scaling-explorations/core-program)
 
 ## Getting Started
 
@@ -66,7 +67,7 @@ zklings
 We recommend using VS Code with the rust-analyzer plugin.
 Any editor that supports rust-analyzer should be sufficient for working on the exercises.
 Doing exercises
-The exercises are sorted by topic and can be found in the subdirectory exercises/<topic>.
+The exercises are sorted by topic and can be found in the subdirectory exercises/[topic].
 For every topic, there is an additional README.md file with some resources to get you started on the topic.
 We highly recommend that you have a look at them before you start 📚️
 Exercises may include:
@@ -95,6 +96,7 @@ See the footer of the list for all possible keys.
 Continuing On
 Once you've completed ZKLings, put your new knowledge to good use!
 Continue practicing your ZKP skills by building your own projects, contributing to ZKLings, or exploring more advanced ZKP concepts and implementations.
+
 ## Uninstalling ZKLings
 
 NOT APPLICABLE YET. If you want to remove ZKLings from your system, run the following command:
