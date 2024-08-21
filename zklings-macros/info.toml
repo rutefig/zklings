@@ -133,9 +133,18 @@ hint = """
 Check which signal is being used on the constraints and is not defined"""
 
 [[exercises]]
+name = "01_constraints"
+ext = "circom"
+dir = "circom/02_constraints"
+test = false
+hint = """
+You need to have every constraint with just one multiplication. You can add intermediate signals as needed.
+"""
+
+[[exercises]]
 name = "01_templates"
 ext = "circom"
-dir = "circom/02_templates"
+dir = "circom/03_templates"
 test = false
 hint = """
 Instantiate the template A with the component keyword and pass the necessary parameters
