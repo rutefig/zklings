@@ -18,6 +18,7 @@ mod exercise;
 mod info_file;
 mod init;
 mod list;
+mod path;
 mod progress_bar;
 mod run;
 mod terminal_link;
