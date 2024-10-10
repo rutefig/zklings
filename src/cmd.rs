@@ -97,6 +97,26 @@ impl<'a> CircomCmd<'a> {
     }
 }
 
+pub struct WasmWitnessCmd<'a> {
+    pub args: &'a [&'a str],
+    pub description: &'a str,
+    /// The output buffer to append the merged stdout and stderr.
+    pub output: &'a mut Vec<u8>,
+    /// Directory where the compiled circuit file is located
+    pub compiled_dir: &'a Path,
+}
+
+impl<'a> WasmWitnessCmd<'a> {
+    pub fn run(&mut self) -> Result<bool> {
+        let mut cmd = Command::new("node");
+        cmd.current_dir(self.compiled_dir)
+            .arg("generate_witness.js")
+            .args(self.args);
+
+        run_cmd(cmd, self.description, self.output)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
