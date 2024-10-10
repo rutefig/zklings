@@ -135,7 +135,7 @@ publish = false
 [dependencies]
 "#;
 
-const README: &str = "# Rustlings 🦀
+const README: &str = "# Rustlings 👽
 
 Welcome to these third-party Rustlings exercises 😃
 
