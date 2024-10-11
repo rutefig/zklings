@@ -10,9 +10,9 @@ use std::{
 };
 
 use crate::{
-    cmd::{run_cmd, CargoCmd, CircomCmd, WasmWitnessCmd},
+    circom_exercise::generate_witness,
+    cmd::{run_cmd, CargoCmd, CircomCmd},
     in_official_repo,
-    path::{append_compiled_folder, change_extension},
     terminal_link::TerminalFileLink,
     DEBUG_PROFILE,
 };
@@ -200,26 +200,7 @@ pub trait RunnableExercise {
         }
 
         // Computing witness.
-        writeln!(output, "{}", "Computing witness...".underlined())?;
-
-        let input_file = change_extension(circuit_file, "json").display().to_string();
-        let input_file_dir = format!("{:?}/{}", "../", input_file).replace('"', "");
-        let compiled_folder = circuit_file.to_str().unwrap().replace(".circom", "_js");
-        let compiled_dir = append_compiled_folder(circuit_dir, &compiled_folder);
-        let wasm_file = change_extension(circuit_file, "wasm").display().to_string();
-
-        let mut generate_witness_cmd = WasmWitnessCmd {
-            args: &[&wasm_file, &input_file_dir, "witness.wtns"],
-            description: "Computing witness",
-            output,
-            compiled_dir: &compiled_dir,
-        };
-
-        let generate_witness_success = generate_witness_cmd.run()?;
-
-        if !generate_witness_success {
-            return Ok(false);
-        }
+        let _ = generate_witness(output, circuit_dir, circuit_file);
 
         writeln!(output, "{}", "Generating proof...".underlined())?;
 
