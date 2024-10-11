@@ -7,6 +7,7 @@ use crossterm::style::Stylize;
 
 use crate::{
     cmd::WasmWitnessCmd,
+    cmd_snarkjs::SnarkjsStartCeremonyCmd,
     path::{append_compiled_folder, change_extension},
 };
 
@@ -37,4 +38,24 @@ pub fn generate_witness(
     }
 
     Ok(generate_witness_success)
+}
+
+// "powersoftau new bn128 12 pot12_0000.ptau -v"
+pub fn start_ceremony(output: &mut Vec<u8>, pot_dir: &Path) -> Result<bool> {
+    writeln!(output, "{}", "Start ceremony...")?;
+
+    let mut start_ceremony_cmd = SnarkjsStartCeremonyCmd {
+        pot_dir,
+        args: &["powersoftau", "new", "bn128", "12", "pot12_0000.ptau", "-v"],
+        description: "Start power of tau ceremony",
+        output,
+    };
+
+    let start_ceremony_success = start_ceremony_cmd.run()?;
+
+    if !start_ceremony_success {
+        return Ok(false);
+    }
+
+    Ok(start_ceremony_success)
 }

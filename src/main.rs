@@ -11,11 +11,12 @@ use self::{app_state::AppState, dev::DevCommands, info_file::InfoFile, watch::Wa
 
 mod app_state;
 mod cargo_toml;
-mod circom_exercise;
 mod cmd;
+mod cmd_snarkjs;
 mod dev;
 mod embedded;
 mod exercise;
+mod exercise_circom;
 mod info_file;
 mod init;
 mod list;
