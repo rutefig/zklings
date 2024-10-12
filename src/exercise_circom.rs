@@ -61,20 +61,12 @@ pub fn start_ceremony(output: &mut Vec<u8>, pot_dir: &Path) -> Result<bool> {
 }
 
 pub fn contribute_ceremony(output: &mut Vec<u8>, pot_dir: &Path) -> Result<bool> {
-    writeln!(output, "{}", "Contribute to the ceremony")?;
+    writeln!(output, "{}", "Contribute to the ceremony...")?;
 
     // Create ceremony with skipping entropy input
     let mut contribute_ceremony_cmd = SnarkjsCmd {
         pot_dir,
-        args: &[
-            "poweroftau",
-            "contribute",
-            "pot12_0000.ptau",
-            "pot12_0001.ptau",
-            "--name=\"First contribution\"",
-            "-v",
-            "-e",
-        ],
+        args: &["ptc", "pot12_0000.ptau", "pot12_0001.ptau", "-v", "-e"],
         description: "First contribution",
         output,
     };
@@ -82,6 +74,25 @@ pub fn contribute_ceremony(output: &mut Vec<u8>, pot_dir: &Path) -> Result<bool>
     let contribute_ceremony_success = contribute_ceremony_cmd.run()?;
 
     if !contribute_ceremony_success {
+        return Ok(false);
+    }
+
+    Ok(true)
+}
+
+pub fn prepare_circuit_proof(output: &mut Vec<u8>, pot_dir: &Path) -> Result<bool> {
+    writeln!(output, "{}", "Prepare circuit-")?;
+
+    let mut prepare_circuit_proof_cmd = SnarkjsCmd {
+        pot_dir,
+        args: &["pt2", "pot12_0001.ptau", "pot12_final.ptau", "-v", "-e"],
+        description: "Prepare circuit-specific",
+        output,
+    };
+
+    let prepare_circuit_proof_cmd_success = prepare_circuit_proof_cmd.run()?;
+
+    if !prepare_circuit_proof_cmd_success {
         return Ok(false);
     }
 

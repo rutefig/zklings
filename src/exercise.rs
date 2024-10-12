@@ -11,7 +11,9 @@ use std::{
 
 use crate::{
     cmd::{run_cmd, CargoCmd, CircomCmd},
-    exercise_circom::{contribute_ceremony, generate_witness, start_ceremony},
+    exercise_circom::{
+        contribute_ceremony, generate_witness, prepare_circuit_proof, start_ceremony,
+    },
     in_official_repo,
     terminal_link::TerminalFileLink,
     DEBUG_PROFILE,
@@ -202,9 +204,18 @@ pub trait RunnableExercise {
         // Computing witness.
         let _ = generate_witness(output, circuit_dir, circuit_file);
 
-        // TODO: Make ceremony to relative path : "<project-root>/pot"
+        // Setup ceremony and generate proof
+        writeln!(
+            output,
+            "{}",
+            "Setup stuff for generating proof...".underlined()
+        )?;
+
         let _ = start_ceremony(output, circuit_dir);
         let _ = contribute_ceremony(output, circuit_dir);
+        // Note: Circuit specific quite taking time,
+        // maybe having flag to check if exercise need to check is nice to have.
+        let _ = prepare_circuit_proof(output, circuit_dir);
 
         writeln!(output, "{}", "Generating proof...".underlined())?;
 
