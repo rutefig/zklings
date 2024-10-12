@@ -4,7 +4,7 @@ use anyhow::Result;
 
 use crate::cmd::run_cmd;
 
-pub struct SnarkjsStartCeremonyCmd<'a> {
+pub struct SnarkjsCmd<'a> {
     pub args: &'a [&'a str],
     pub pot_dir: &'a Path,
     pub description: &'a str,
@@ -12,7 +12,7 @@ pub struct SnarkjsStartCeremonyCmd<'a> {
     pub output: &'a mut Vec<u8>,
 }
 
-impl<'a> SnarkjsStartCeremonyCmd<'a> {
+impl<'a> SnarkjsCmd<'a> {
     pub fn run(&mut self) -> Result<bool> {
         let mut cmd = Command::new("snarkjs");
         cmd.current_dir(self.pot_dir).args(self.args);

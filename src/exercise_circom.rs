@@ -7,7 +7,7 @@ use crossterm::style::Stylize;
 
 use crate::{
     cmd::WasmWitnessCmd,
-    cmd_snarkjs::SnarkjsStartCeremonyCmd,
+    cmd_snarkjs::SnarkjsCmd,
     path::{append_compiled_folder, change_extension},
 };
 
@@ -44,7 +44,7 @@ pub fn generate_witness(
 pub fn start_ceremony(output: &mut Vec<u8>, pot_dir: &Path) -> Result<bool> {
     writeln!(output, "{}", "Start ceremony...")?;
 
-    let mut start_ceremony_cmd = SnarkjsStartCeremonyCmd {
+    let mut start_ceremony_cmd = SnarkjsCmd {
         pot_dir,
         args: &["powersoftau", "new", "bn128", "12", "pot12_0000.ptau", "-v"],
         description: "Start power of tau ceremony",
@@ -58,4 +58,32 @@ pub fn start_ceremony(output: &mut Vec<u8>, pot_dir: &Path) -> Result<bool> {
     }
 
     Ok(start_ceremony_success)
+}
+
+pub fn contribute_ceremony(output: &mut Vec<u8>, pot_dir: &Path) -> Result<bool> {
+    writeln!(output, "{}", "Contribute to the ceremony")?;
+
+    // Create ceremony with skipping entropy input
+    let mut contribute_ceremony_cmd = SnarkjsCmd {
+        pot_dir,
+        args: &[
+            "poweroftau",
+            "contribute",
+            "pot12_0000.ptau",
+            "pot12_0001.ptau",
+            "--name=\"First contribution\"",
+            "-v",
+            "-e",
+        ],
+        description: "First contribution",
+        output,
+    };
+
+    let contribute_ceremony_success = contribute_ceremony_cmd.run()?;
+
+    if !contribute_ceremony_success {
+        return Ok(false);
+    }
+
+    Ok(true)
 }
