@@ -29,3 +29,5 @@ public/
 exercises/circom/*/*.r1cs
 exercises/circom/*/*.sym
 exercises/circom/*/*_js
+exercises/circom/*/*.ptau
+exercises/circom/*/*.zkey
