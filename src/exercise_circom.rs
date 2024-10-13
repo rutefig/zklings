@@ -81,7 +81,7 @@ pub fn contribute_ceremony(output: &mut Vec<u8>, pot_dir: &Path) -> Result<bool>
 }
 
 pub fn prepare_circuit_proof(output: &mut Vec<u8>, pot_dir: &Path) -> Result<bool> {
-    writeln!(output, "{}", "Prepare circuit-")?;
+    writeln!(output, "{}", "Prepare circuit...")?;
 
     let mut prepare_circuit_proof_cmd = SnarkjsCmd {
         pot_dir,
@@ -93,6 +93,36 @@ pub fn prepare_circuit_proof(output: &mut Vec<u8>, pot_dir: &Path) -> Result<boo
     let prepare_circuit_proof_cmd_success = prepare_circuit_proof_cmd.run()?;
 
     if !prepare_circuit_proof_cmd_success {
+        return Ok(false);
+    }
+
+    Ok(true)
+}
+
+pub fn create_z_key(output: &mut Vec<u8>, pot_dir: &Path, circuit_file: &OsStr) -> Result<bool> {
+    writeln!(output, "{}", "Create .zkey ...")?;
+
+    let r1cs_file = change_extension(circuit_file, "r1cs").display().to_string();
+    let z_key_file_name = change_extension(circuit_file, ".zkey")
+        .display()
+        .to_string();
+
+    let mut create_z_key_cmd = SnarkjsCmd {
+        pot_dir,
+        args: &[
+            "groth16",
+            "setup",
+            &r1cs_file,
+            "pot12_final.ptau",
+            &z_key_file_name,
+        ],
+        description: "Create .zkey",
+        output,
+    };
+
+    let create_z_key_cmd_success = create_z_key_cmd.run()?;
+
+    if !create_z_key_cmd_success {
         return Ok(false);
     }
 
