@@ -1,10 +1,11 @@
-use anyhow::Result;
+use anyhow::{Ok, Result};
 
 use std::path::Path;
 use std::{ffi::OsStr, io::Write};
 
 use crossterm::style::Stylize;
 
+use crate::path::change_extension_with_suffix;
 use crate::{
     cmd::WasmWitnessCmd,
     cmd_snarkjs::SnarkjsCmd,
@@ -60,13 +61,30 @@ pub fn start_ceremony(output: &mut Vec<u8>, pot_dir: &Path) -> Result<bool> {
     Ok(start_ceremony_success)
 }
 
-pub fn contribute_ceremony(output: &mut Vec<u8>, pot_dir: &Path) -> Result<bool> {
+pub fn contribute_ceremony(
+    output: &mut Vec<u8>,
+    pot_dir: &Path,
+    contribute_in_file_name: &Path,
+    contribute_out_file_name: &Path,
+) -> Result<bool> {
     writeln!(output, "{}", "Contribute to the ceremony...")?;
 
     // Create ceremony with skipping entropy input
+    // let mut contribute_ceremony_cmd = SnarkjsCmd {
+    //     pot_dir,
+    //     args: &["ptc", "pot12_0000.ptau", "pot12_0001.ptau", "-v", "-e"],
+    //     description: "First contribution",
+    //     output,
+    // };
     let mut contribute_ceremony_cmd = SnarkjsCmd {
         pot_dir,
-        args: &["ptc", "pot12_0000.ptau", "pot12_0001.ptau", "-v", "-e"],
+        args: &[
+            "ptc",
+            &contribute_in_file_name.display().to_string(),
+            &contribute_out_file_name.display().to_string(),
+            "-v",
+            "-e",
+        ],
         description: "First contribution",
         output,
     };
@@ -103,7 +121,7 @@ pub fn create_z_key(output: &mut Vec<u8>, pot_dir: &Path, circuit_file: &OsStr) 
     writeln!(output, "{}", "Create .zkey ...")?;
 
     let r1cs_file = change_extension(circuit_file, "r1cs").display().to_string();
-    let z_key_file_name = change_extension(circuit_file, ".zkey")
+    let z_key_file_name: String = change_extension_with_suffix(circuit_file, "_0000", "zkey")
         .display()
         .to_string();
 
@@ -123,6 +141,68 @@ pub fn create_z_key(output: &mut Vec<u8>, pot_dir: &Path, circuit_file: &OsStr) 
     let create_z_key_cmd_success = create_z_key_cmd.run()?;
 
     if !create_z_key_cmd_success {
+        return Ok(false);
+    }
+
+    Ok(true)
+}
+
+pub fn contribute_z_key(
+    output: &mut Vec<u8>,
+    pot_dir: &Path,
+    circuit_file: &OsStr,
+) -> Result<bool> {
+    writeln!(output, "{}", "Contribute .zkey ...")?;
+
+    let z_key_in_file_name = change_extension_with_suffix(circuit_file, "_0000", "zkey");
+    let z_key_out_file_name = change_extension_with_suffix(circuit_file, "_0001", "zkey");
+
+    let mut contribute_z_key_cmd = SnarkjsCmd {
+        pot_dir,
+        args: &[
+            "zkc",
+            &z_key_in_file_name.as_path().display().to_string(),
+            &z_key_out_file_name.as_path().display().to_string(),
+            "-v",
+            "-e",
+        ],
+        description: "Create .zkey",
+        output,
+    };
+
+    let contribute_z_key_cmd_success = contribute_z_key_cmd.run()?;
+
+    if !contribute_z_key_cmd_success {
+        return Ok(false);
+    }
+
+    Ok(true)
+}
+
+pub fn export_verification_key(
+    output: &mut Vec<u8>,
+    pot_dir: &Path,
+    circuit_file: &OsStr,
+) -> Result<bool> {
+    writeln!(output, "{}", "Export verification key...")?;
+
+    let z_key_in_file_name = change_extension_with_suffix(circuit_file, "_0001", "zkey");
+    let json_key_file_name = change_extension_with_suffix(circuit_file, "_verification", "json");
+
+    let mut contribute_z_key_cmd = SnarkjsCmd {
+        pot_dir,
+        args: &[
+            "zkev",
+            &z_key_in_file_name.as_path().display().to_string(),
+            &json_key_file_name.as_path().display().to_string(),
+        ],
+        description: "Export json verification key",
+        output,
+    };
+
+    let contribute_z_key_cmd_success = contribute_z_key_cmd.run()?;
+
+    if !contribute_z_key_cmd_success {
         return Ok(false);
     }
 
