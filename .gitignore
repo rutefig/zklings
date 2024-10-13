@@ -31,3 +31,4 @@ exercises/circom/*/*.sym
 exercises/circom/*/*_js
 exercises/circom/*/*.ptau
 exercises/circom/*/*.zkey
+exercises/circom/*/*_verification.json
