@@ -13,7 +13,7 @@ use crate::{
     cmd::{run_cmd, CargoCmd, CircomCmd},
     exercise_circom::{
         contribute_ceremony, contribute_z_key, create_z_key, export_verification_key,
-        generate_witness, prepare_circuit_proof, start_ceremony,
+        generate_proof, generate_witness, prepare_circuit_proof, start_ceremony, verify_proof,
     },
     in_official_repo,
     terminal_link::TerminalFileLink,
@@ -220,13 +220,11 @@ pub trait RunnableExercise {
         let _ = prepare_circuit_proof(output, circuit_dir);
         let _ = create_z_key(output, circuit_dir, circuit_file);
         let _ = contribute_z_key(output, circuit_dir, circuit_file);
-        let proof_success = export_verification_key(output, circuit_dir, circuit_file).unwrap();
+        let _ = export_verification_key(output, circuit_dir, circuit_file);
+        let proof_success = generate_proof(output, circuit_dir, circuit_file).unwrap();
 
         writeln!(output, "{}", "Verifying proof...".underlined())?;
-
-        // Here you would implement the logic to verify the proof
-        // This is a placeholder and would need to be expanded based on your specific requirements
-        let verify_success = true;
+        let verify_success = verify_proof(output, circuit_dir, circuit_file).unwrap();
 
         Ok(compile_success && proof_success && verify_success)
     }

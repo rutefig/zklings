@@ -21,7 +21,7 @@ pub fn generate_witness(
 
     let input_file = change_extension(circuit_file, "json").display().to_string();
     let input_file_dir = format!("{:?}/{}", "../", input_file).replace('"', "");
-    let compiled_folder = circuit_file.to_str().unwrap().replace(".circom", "_js");
+    let compiled_folder: String = circuit_file.to_str().unwrap().replace(".circom", "_js");
     let compiled_dir = append_compiled_folder(circuit_dir, &compiled_folder);
     let wasm_file = change_extension(circuit_file, "wasm").display().to_string();
 
@@ -70,12 +70,6 @@ pub fn contribute_ceremony(
     writeln!(output, "{}", "Contribute to the ceremony...")?;
 
     // Create ceremony with skipping entropy input
-    // let mut contribute_ceremony_cmd = SnarkjsCmd {
-    //     pot_dir,
-    //     args: &["ptc", "pot12_0000.ptau", "pot12_0001.ptau", "-v", "-e"],
-    //     description: "First contribution",
-    //     output,
-    // };
     let mut contribute_ceremony_cmd = SnarkjsCmd {
         pot_dir,
         args: &[
@@ -203,6 +197,67 @@ pub fn export_verification_key(
     let contribute_z_key_cmd_success = contribute_z_key_cmd.run()?;
 
     if !contribute_z_key_cmd_success {
+        return Ok(false);
+    }
+
+    Ok(true)
+}
+
+pub fn generate_proof(output: &mut Vec<u8>, pot_dir: &Path, circuit_file: &OsStr) -> Result<bool> {
+    writeln!(output, "{}", "Generating proof...")?;
+
+    let compiled_folder = circuit_file.to_str().unwrap().replace(".circom", "_js");
+    let witness_folder_with_name = format!("{}/{}", compiled_folder, "witness.wtns");
+
+    let z_key_in_file_name = change_extension_with_suffix(circuit_file, "_0001", "zkey");
+    let proof_file_name = change_extension_with_suffix(circuit_file, "_prove", "json");
+    let json_key_file_name = change_extension_with_suffix(circuit_file, "_out", "json");
+
+    let mut generate_proof_cmd = SnarkjsCmd {
+        pot_dir: &pot_dir,
+        args: &[
+            "g16p",
+            &z_key_in_file_name.as_path().display().to_string(),
+            &witness_folder_with_name,
+            &proof_file_name.as_path().display().to_string(),
+            &json_key_file_name.as_path().display().to_string(),
+        ],
+        description: "Generate proof file",
+        output,
+    };
+
+    let generate_proof_cmd_success = generate_proof_cmd.run()?;
+
+    if !generate_proof_cmd_success {
+        return Ok(false);
+    }
+
+    Ok(true)
+}
+
+pub fn verify_proof(output: &mut Vec<u8>, pot_dir: &Path, circuit_file: &OsStr) -> Result<bool> {
+    writeln!(output, "{}", "Verifying proof...")?;
+
+    let verification_key_file_name =
+        change_extension_with_suffix(circuit_file, "_verification", "json");
+    let public_key_file_name = change_extension_with_suffix(circuit_file, "_out", "json");
+    let proof_file_name = change_extension_with_suffix(circuit_file, "_prove", "json");
+
+    let mut verify_proof_cmd = SnarkjsCmd {
+        pot_dir: &pot_dir,
+        args: &[
+            "g16v",
+            &verification_key_file_name.display().to_string(),
+            &public_key_file_name.display().to_string(),
+            &proof_file_name.display().to_string(),
+        ],
+        description: "Verify proof",
+        output,
+    };
+
+    let verify_proof_cmd_success = verify_proof_cmd.run()?;
+
+    if !verify_proof_cmd_success {
         return Ok(false);
     }
 
