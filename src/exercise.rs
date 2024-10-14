@@ -7,6 +7,7 @@ use std::{
     io::Write,
     path::{Path, PathBuf},
     process::Command,
+    time::SystemTime,
 };
 
 use crate::{
@@ -17,6 +18,7 @@ use crate::{
     },
     in_official_repo,
     terminal_link::TerminalFileLink,
+    time::get_elapsed_time,
     DEBUG_PROFILE,
 };
 
@@ -180,6 +182,9 @@ pub trait RunnableExercise {
     fn run_circom(&self, output: &mut Vec<u8>, _target_dir: &Path) -> Result<bool> {
         writeln!(output, "{}", "Compiling Circom circuit...".underlined())?;
 
+        // For logging elapsed time for whole process.
+        let now = SystemTime::now();
+
         let path = self.path().clone();
         let full_path = Path::new(&path);
         let circuit_dir = full_path.parent().unwrap_or(Path::new(""));
@@ -225,6 +230,9 @@ pub trait RunnableExercise {
 
         writeln!(output, "{}", "Verifying proof...".underlined())?;
         let verify_success = verify_proof(output, circuit_dir, circuit_file).unwrap();
+
+        let elapsed_time = get_elapsed_time(&now);
+        writeln!(output, "Elapsed time: {}s", elapsed_time);
 
         Ok(compile_success && proof_success && verify_success)
     }

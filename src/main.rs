@@ -24,6 +24,7 @@ mod path;
 mod progress_bar;
 mod run;
 mod terminal_link;
+mod time;
 mod watch;
 
 const CURRENT_FORMAT_VERSION: u8 = 1;
