@@ -208,24 +208,24 @@ pub trait RunnableExercise {
         }
 
         // Computing witness.
-        let _ = generate_witness(output, circuit_dir, circuit_file);
+        generate_witness(output, circuit_dir, circuit_file)?;
 
         // Setup ceremony and generate proof
         writeln!(output, "{}", "Generating proof...".underlined())?;
 
-        let _ = start_ceremony(output, circuit_dir);
-        let _ = contribute_ceremony(
+        start_ceremony(output, circuit_dir)?;
+        contribute_ceremony(
             output,
             circuit_dir,
             Path::new("pot9_0000.ptau"),
             Path::new("pot9_0001.ptau"),
-        );
+        )?;
         // Note: Circuit specific quite taking time,
         // maybe having flag to check if exercise need to check is nice to have.
-        let _ = prepare_circuit_proof(output, circuit_dir);
-        let _ = create_z_key(output, circuit_dir, circuit_file);
-        let _ = contribute_z_key(output, circuit_dir, circuit_file);
-        let _ = export_verification_key(output, circuit_dir, circuit_file);
+        prepare_circuit_proof(output, circuit_dir)?;
+        create_z_key(output, circuit_dir, circuit_file)?;
+        contribute_z_key(output, circuit_dir, circuit_file)?;
+        export_verification_key(output, circuit_dir, circuit_file)?;
         let proof_success = generate_proof(output, circuit_dir, circuit_file).unwrap();
 
         writeln!(output, "{}", "Verifying proof...".underlined())?;
