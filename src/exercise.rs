@@ -217,8 +217,8 @@ pub trait RunnableExercise {
         let _ = contribute_ceremony(
             output,
             circuit_dir,
-            Path::new("pot12_0000.ptau"),
-            Path::new("pot12_0001.ptau"),
+            Path::new("pot9_0000.ptau"),
+            Path::new("pot9_0001.ptau"),
         );
         // Note: Circuit specific quite taking time,
         // maybe having flag to check if exercise need to check is nice to have.
