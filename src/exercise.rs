@@ -232,7 +232,7 @@ pub trait RunnableExercise {
         let verify_success = verify_proof(output, circuit_dir, circuit_file).unwrap();
 
         let elapsed_time = get_elapsed_time(&now);
-        writeln!(output, "Elapsed time: {}s", elapsed_time);
+        writeln!(output, "Elapsed time: {}s", elapsed_time)?;
 
         Ok(compile_success && proof_success && verify_success)
     }
