@@ -41,13 +41,13 @@ pub fn generate_witness(
     Ok(generate_witness_success)
 }
 
-// "powersoftau new bn128 12 pot12_0000.ptau -v"
+// "powersoftau new bn128 9 pot9_0000.ptau -v"
 pub fn start_ceremony(output: &mut Vec<u8>, pot_dir: &Path) -> Result<bool> {
     writeln!(output, "{}", "Start ceremony...")?;
 
     let mut start_ceremony_cmd = SnarkjsCmd {
         pot_dir,
-        args: &["powersoftau", "new", "bn128", "12", "pot12_0000.ptau", "-v"],
+        args: &["powersoftau", "new", "bn128", "9", "pot9_0000.ptau", "-v"],
         description: "Start power of tau ceremony",
         output,
     };
@@ -97,7 +97,7 @@ pub fn prepare_circuit_proof(output: &mut Vec<u8>, pot_dir: &Path) -> Result<boo
 
     let mut prepare_circuit_proof_cmd = SnarkjsCmd {
         pot_dir,
-        args: &["pt2", "pot12_0001.ptau", "pot12_final.ptau", "-v", "-e"],
+        args: &["pt2", "pot9_0001.ptau", "pot9_final.ptau", "-v", "-e"],
         description: "Prepare circuit-specific",
         output,
     };
@@ -125,7 +125,7 @@ pub fn create_z_key(output: &mut Vec<u8>, pot_dir: &Path, circuit_file: &OsStr) 
             "groth16",
             "setup",
             &r1cs_file,
-            "pot12_final.ptau",
+            "pot9_final.ptau",
             &z_key_file_name,
         ],
         description: "Create .zkey",
