@@ -34,7 +34,7 @@ fn discrete_log(a: u64, b: u64, n: u64) -> Option<u64> {
     // Hint: Try all possible x from 0 to n-1 and check if mod_pow(a, x, n) == b
 
     // START: Implement the function here
-    for x in 0..n {
+    for x in 1..n {
         if mod_pow(a, x, n) == b % n {
             return Some(x);
         }

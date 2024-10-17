@@ -149,3 +149,12 @@ test = false
 hint = """
 Instantiate the template A with the component keyword and pass the necessary parameters
 """
+
+[[exercises]]
+name = "01_discrete_log_problem"
+ext = "rs"
+dir = "zk-protocols-basics/01_discrete_log_problem"
+test = true
+hint = """
+Implement the discrete_log function for two exercises. First exercises focusses on finding one of the possible discrete log, and second exercise gives the idea about how multiple discrete logs can exist for the same modulus result.
+"""
