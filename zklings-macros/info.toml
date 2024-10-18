@@ -149,3 +149,12 @@ test = false
 hint = """
 Instantiate the template A with the component keyword and pass the necessary parameters
 """
+
+[[exercises]]
+name = "01_intro"
+ext = "rs"
+dir = "finite_fields/01_sets_and_groups"
+test = false
+hint = """
+Implement group addition (add more)
+"""
