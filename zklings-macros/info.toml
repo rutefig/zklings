@@ -158,3 +158,12 @@ test = false
 hint = """
 Implement group addition (add more)
 """
+
+[[exercises]]
+name = "02_binary_operations"
+ext = "rs"
+dir = "finite_fields/01_sets_and_groups"
+test = true
+hint = """
+Implement group addition (add more)
+"""
