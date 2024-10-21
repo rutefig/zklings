@@ -32,13 +32,7 @@ pub fn generate_witness(
         compiled_dir: &compiled_dir,
     };
 
-    let generate_witness_success = generate_witness_cmd.run()?;
-
-    if !generate_witness_success {
-        return Ok(false);
-    }
-
-    Ok(generate_witness_success)
+    generate_witness_cmd.run()
 }
 
 // "powersoftau new bn128 9 pot9_0000.ptau -v"
@@ -52,13 +46,7 @@ pub fn start_ceremony(output: &mut Vec<u8>, pot_dir: &Path) -> Result<bool> {
         output,
     };
 
-    let start_ceremony_success = start_ceremony_cmd.run()?;
-
-    if !start_ceremony_success {
-        return Ok(false);
-    }
-
-    Ok(start_ceremony_success)
+    start_ceremony_cmd.run()
 }
 
 pub fn contribute_ceremony(
@@ -83,13 +71,7 @@ pub fn contribute_ceremony(
         output,
     };
 
-    let contribute_ceremony_success = contribute_ceremony_cmd.run()?;
-
-    if !contribute_ceremony_success {
-        return Ok(false);
-    }
-
-    Ok(true)
+    contribute_ceremony_cmd.run()
 }
 
 pub fn prepare_circuit_proof(output: &mut Vec<u8>, pot_dir: &Path) -> Result<bool> {
@@ -102,13 +84,7 @@ pub fn prepare_circuit_proof(output: &mut Vec<u8>, pot_dir: &Path) -> Result<boo
         output,
     };
 
-    let prepare_circuit_proof_cmd_success = prepare_circuit_proof_cmd.run()?;
-
-    if !prepare_circuit_proof_cmd_success {
-        return Ok(false);
-    }
-
-    Ok(true)
+    prepare_circuit_proof_cmd.run()
 }
 
 pub fn create_z_key(output: &mut Vec<u8>, pot_dir: &Path, circuit_file: &OsStr) -> Result<bool> {
@@ -132,13 +108,7 @@ pub fn create_z_key(output: &mut Vec<u8>, pot_dir: &Path, circuit_file: &OsStr) 
         output,
     };
 
-    let create_z_key_cmd_success = create_z_key_cmd.run()?;
-
-    if !create_z_key_cmd_success {
-        return Ok(false);
-    }
-
-    Ok(true)
+    create_z_key_cmd.run()
 }
 
 pub fn contribute_z_key(
@@ -194,13 +164,7 @@ pub fn export_verification_key(
         output,
     };
 
-    let contribute_z_key_cmd_success = contribute_z_key_cmd.run()?;
-
-    if !contribute_z_key_cmd_success {
-        return Ok(false);
-    }
-
-    Ok(true)
+    contribute_z_key_cmd.run()
 }
 
 pub fn generate_proof(output: &mut Vec<u8>, pot_dir: &Path, circuit_file: &OsStr) -> Result<bool> {
@@ -226,13 +190,7 @@ pub fn generate_proof(output: &mut Vec<u8>, pot_dir: &Path, circuit_file: &OsStr
         output,
     };
 
-    let generate_proof_cmd_success = generate_proof_cmd.run()?;
-
-    if !generate_proof_cmd_success {
-        return Ok(false);
-    }
-
-    Ok(true)
+    generate_proof_cmd.run()
 }
 
 pub fn verify_proof(output: &mut Vec<u8>, pot_dir: &Path, circuit_file: &OsStr) -> Result<bool> {
@@ -255,11 +213,5 @@ pub fn verify_proof(output: &mut Vec<u8>, pot_dir: &Path, circuit_file: &OsStr) 
         output,
     };
 
-    let verify_proof_cmd_success = verify_proof_cmd.run()?;
-
-    if !verify_proof_cmd_success {
-        return Ok(false);
-    }
-
-    Ok(true)
+    verify_proof_cmd.run()
 }
