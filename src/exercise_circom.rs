@@ -22,22 +22,15 @@ impl<'a> CircomExercise<'a> {
     pub fn generate_witness(&self, output: &mut Vec<u8>) -> Result<bool> {
         writeln!(output, "{}", "Computing witness...".underlined())?;
 
-        let input_file = change_extension(self.circuit_file, "json")
-            .display()
-            .to_string();
-        let input_file_dir = format!("{:?}/{}", "../", input_file).replace('"', "");
-        let compiled_folder: String = self
-            .circuit_file
-            .to_str()
-            .unwrap()
-            .replace(".circom", "_js");
-        let compiled_dir = append_compiled_folder(self.circuit_dir, &compiled_folder);
-        let wasm_file = change_extension(self.circuit_file, "wasm")
-            .display()
-            .to_string();
+        let compiled_dir = append_compiled_folder(self.circuit_dir, &self.compiled_folder());
+        let wasm_file = change_extension(self.circuit_file, "wasm");
 
         let mut generate_witness_cmd = WasmWitnessCmd {
-            args: &[&wasm_file, &input_file_dir, "witness.wtns"],
+            args: &[
+                &wasm_file.display().to_string(),
+                &self.input_file_dir(),
+                "witness.wtns",
+            ],
             description: "Computing witness",
             output,
             compiled_dir: &compiled_dir,
@@ -179,12 +172,7 @@ impl<'a> CircomExercise<'a> {
     pub fn generate_proof(&self, output: &mut Vec<u8>) -> Result<bool> {
         writeln!(output, "{}", "Generating proof...")?;
 
-        let compiled_folder = &self
-            .circuit_file
-            .to_str()
-            .unwrap()
-            .replace(".circom", "_js");
-        let witness_folder_with_name = format!("{}/{}", compiled_folder, "witness.wtns");
+        let witness_folder_with_name = format!("{}/{}", &self.compiled_folder(), "witness.wtns");
 
         let mut generate_proof_cmd = SnarkjsCmd {
             pot_dir: &self.circuit_dir,
@@ -220,6 +208,22 @@ impl<'a> CircomExercise<'a> {
         verify_proof_cmd.run()
     }
 
+    fn compiled_folder(&self) -> String {
+        return self
+            .circuit_file
+            .to_str()
+            .unwrap()
+            .replace(".circom", "_js");
+    }
+
+    fn input_file_dir(&self) -> String {
+        let input_file = change_extension(&self.circuit_file, "json")
+            .display()
+            .to_string();
+        format!("{:?}/{}", "../", input_file).replace('"', "")
+    }
+
+    // Ceremony setup
     fn contribution_file_0(&self) -> String {
         self.contribution_file_name("_0000")
     }
