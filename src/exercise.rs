@@ -208,7 +208,10 @@ pub trait RunnableExercise {
         }
 
         // Computing witness.
-        generate_witness(output, circuit_dir, circuit_file)?;
+        let generate_witness = generate_witness(output, circuit_dir, circuit_file)?;
+        if !generate_witness {
+            return Ok(false);
+        }
 
         // Setup ceremony and generate proof
         writeln!(output, "{}", "Generating proof...".underlined())?;
@@ -227,14 +230,20 @@ pub trait RunnableExercise {
         contribute_z_key(output, circuit_dir, circuit_file)?;
         export_verification_key(output, circuit_dir, circuit_file)?;
         let proof_success = generate_proof(output, circuit_dir, circuit_file).unwrap();
+        if !proof_success {
+            return Ok(false);
+        }
 
         writeln!(output, "{}", "Verifying proof...".underlined())?;
         let verify_success = verify_proof(output, circuit_dir, circuit_file).unwrap();
+        if !verify_success {
+            return Ok(false);
+        }
 
         let elapsed_time = get_elapsed_time(&now);
         writeln!(output, "Elapsed time: {}s", elapsed_time)?;
 
-        Ok(compile_success && proof_success && verify_success)
+        Ok(true)
     }
 
     fn run_markdown(&self, output: &mut Vec<u8>) -> Result<bool> {
