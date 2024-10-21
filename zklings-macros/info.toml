@@ -151,10 +151,19 @@ Instantiate the template A with the component keyword and pass the necessary par
 """
 
 [[exercises]]
-name = "01_discrete_log_problem"
+name = "dlp1"
 ext = "rs"
 dir = "zk-protocols-basics/01_discrete_log_problem"
 test = true
 hint = """
-Implement the discrete_log function for two exercises. First exercises focusses on finding one of the possible discrete log, and second exercise gives the idea about how multiple discrete logs can exist for the same modulus result.
+Implement the basic discrete log function which runs a check on individual element within the range and checks if the exponenetiation matches the result.
+"""
+
+[[exercises]]
+name = "dlp2"
+ext = "rs"
+dir = "zk-protocols-basics/01_discrete_log_problem"
+test = true
+hint = """
+Implement the discrete log function returning an array with at least five solutions for the same modulo result.
 """
