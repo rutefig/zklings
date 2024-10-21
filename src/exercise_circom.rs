@@ -1,6 +1,6 @@
 use anyhow::{Ok, Result};
 
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use std::{ffi::OsStr, io::Write};
 
 use crossterm::style::Stylize;
@@ -68,12 +68,7 @@ impl<'a> CircomExercise<'a> {
         start_ceremony_cmd.run()
     }
 
-    pub fn contribute_ceremony(
-        &self,
-        output: &mut Vec<u8>,
-        // contribute_in_file_name: &Path,
-        // contribute_out_file_name: &Path,
-    ) -> Result<bool> {
+    pub fn contribute_ceremony(&self, output: &mut Vec<u8>) -> Result<bool> {
         writeln!(output, "{}", "Contribute to the ceremony...")?;
 
         // Create ceremony with skipping entropy input
@@ -118,10 +113,6 @@ impl<'a> CircomExercise<'a> {
         let r1cs_file = change_extension(&self.circuit_file, "r1cs")
             .display()
             .to_string();
-        let z_key_file_name: String =
-            change_extension_with_suffix(&self.circuit_file, "_0000", "zkey")
-                .display()
-                .to_string();
 
         let mut create_z_key_cmd = SnarkjsCmd {
             pot_dir: &self.circuit_dir,
@@ -130,7 +121,7 @@ impl<'a> CircomExercise<'a> {
                 "setup",
                 &r1cs_file,
                 "pot9_final.ptau",
-                &z_key_file_name,
+                &self.zkey_file_0().display().to_string(),
             ],
             description: "Create .zkey",
             output,
@@ -142,15 +133,12 @@ impl<'a> CircomExercise<'a> {
     pub fn contribute_z_key(&self, output: &mut Vec<u8>) -> Result<bool> {
         writeln!(output, "{}", "Contribute .zkey ...")?;
 
-        let z_key_in_file_name = change_extension_with_suffix(&self.circuit_file, "_0000", "zkey");
-        let z_key_out_file_name = change_extension_with_suffix(&self.circuit_file, "_0001", "zkey");
-
         let mut contribute_z_key_cmd = SnarkjsCmd {
             pot_dir: &self.circuit_dir,
             args: &[
                 "zkc",
-                &z_key_in_file_name.as_path().display().to_string(),
-                &z_key_out_file_name.as_path().display().to_string(),
+                &self.zkey_file_0().as_path().display().to_string(),
+                &self.zkey_file_1().as_path().display().to_string(),
                 "-v",
                 "-e",
             ],
@@ -170,16 +158,16 @@ impl<'a> CircomExercise<'a> {
     pub fn export_verification_key(&self, output: &mut Vec<u8>) -> Result<bool> {
         writeln!(output, "{}", "Export verification key...")?;
 
-        let z_key_in_file_name = change_extension_with_suffix(&self.circuit_file, "_0001", "zkey");
-        let json_key_file_name =
-            change_extension_with_suffix(&self.circuit_file, "_verification", "json");
-
         let mut contribute_z_key_cmd = SnarkjsCmd {
             pot_dir: &self.circuit_dir,
             args: &[
                 "zkev",
-                &z_key_in_file_name.as_path().display().to_string(),
-                &json_key_file_name.as_path().display().to_string(),
+                &self.zkey_file_1().as_path().display().to_string(),
+                &self
+                    .verification_file_name()
+                    .as_path()
+                    .display()
+                    .to_string(),
             ],
             description: "Export json verification key",
             output,
@@ -198,18 +186,14 @@ impl<'a> CircomExercise<'a> {
             .replace(".circom", "_js");
         let witness_folder_with_name = format!("{}/{}", compiled_folder, "witness.wtns");
 
-        let z_key_in_file_name = change_extension_with_suffix(&self.circuit_file, "_0001", "zkey");
-        let proof_file_name = change_extension_with_suffix(&self.circuit_file, "_prove", "json");
-        let json_key_file_name = change_extension_with_suffix(&self.circuit_file, "_out", "json");
-
         let mut generate_proof_cmd = SnarkjsCmd {
             pot_dir: &self.circuit_dir,
             args: &[
                 "g16p",
-                &z_key_in_file_name.as_path().display().to_string(),
+                &self.zkey_file_1().as_path().display().to_string(),
                 &witness_folder_with_name,
-                &proof_file_name.as_path().display().to_string(),
-                &json_key_file_name.as_path().display().to_string(),
+                &self.proof_file_name().as_path().display().to_string(),
+                &self.public_key_file_name().as_path().display().to_string(),
             ],
             description: "Generate proof file",
             output,
@@ -221,18 +205,13 @@ impl<'a> CircomExercise<'a> {
     pub fn verify_proof(&self, output: &mut Vec<u8>) -> Result<bool> {
         writeln!(output, "{}", "Verifying proof...")?;
 
-        let verification_key_file_name =
-            change_extension_with_suffix(&self.circuit_file, "_verification", "json");
-        let public_key_file_name = change_extension_with_suffix(&self.circuit_file, "_out", "json");
-        let proof_file_name = change_extension_with_suffix(&self.circuit_file, "_prove", "json");
-
         let mut verify_proof_cmd = SnarkjsCmd {
             pot_dir: &self.circuit_dir,
             args: &[
                 "g16v",
-                &verification_key_file_name.display().to_string(),
-                &public_key_file_name.display().to_string(),
-                &proof_file_name.display().to_string(),
+                &self.verification_file_name().display().to_string(),
+                &self.public_key_file_name().display().to_string(),
+                &self.proof_file_name().display().to_string(),
             ],
             description: "Verify proof",
             output,
@@ -254,7 +233,27 @@ impl<'a> CircomExercise<'a> {
     }
 
     fn contribution_file_name(&self, suffix: &str) -> String {
-        // "pot" + &self.ptau.to_owned() + suffix + ".ptau"
         format!("pot{}{}.ptau", &self.ptau, &suffix)
+    }
+
+    // zkey
+    fn zkey_file_0(&self) -> PathBuf {
+        change_extension_with_suffix(&self.circuit_file, "_0000", "zkey")
+    }
+
+    fn zkey_file_1(&self) -> PathBuf {
+        change_extension_with_suffix(&self.circuit_file, "_0001", "zkey")
+    }
+
+    fn verification_file_name(&self) -> PathBuf {
+        change_extension_with_suffix(&self.circuit_file, "_verification", "json")
+    }
+
+    fn public_key_file_name(&self) -> PathBuf {
+        change_extension_with_suffix(&self.circuit_file, "_out", "json")
+    }
+
+    fn proof_file_name(&self) -> PathBuf {
+        change_extension_with_suffix(&self.circuit_file, "_prove", "json")
     }
 }
