@@ -205,9 +205,11 @@ pub trait RunnableExercise {
         }
 
         // Circom.
+        let ptau = "9";
         let circom_exercise = CircomExercise {
             circuit_dir,
             circuit_file,
+            ptau,
         };
 
         // Computing witness.
@@ -220,11 +222,7 @@ pub trait RunnableExercise {
         writeln!(output, "{}", "Generating proof...".underlined())?;
 
         circom_exercise.start_ceremony(output)?;
-        circom_exercise.contribute_ceremony(
-            output,
-            Path::new("pot9_0000.ptau"),
-            Path::new("pot9_0001.ptau"),
-        )?;
+        circom_exercise.contribute_ceremony(output)?;
         // Note: Circuit specific quite taking time,
         // maybe having flag to check if exercise need to check is nice to have.
         circom_exercise.prepare_circuit_proof(output)?;

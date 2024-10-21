@@ -15,6 +15,7 @@ use crate::{
 pub struct CircomExercise<'a> {
     pub circuit_dir: &'a Path,
     pub circuit_file: &'a OsStr,
+    pub ptau: &'a str,
 }
 
 impl<'a> CircomExercise<'a> {
@@ -51,7 +52,15 @@ impl<'a> CircomExercise<'a> {
 
         let mut start_ceremony_cmd = SnarkjsCmd {
             pot_dir: &self.circuit_dir,
-            args: &["powersoftau", "new", "bn128", "9", "pot9_0000.ptau", "-v"],
+            args: &[
+                "powersoftau",
+                "new",
+                "bn128",
+                "9",
+                &self.contribution_file_0(),
+                "-v",
+            ],
+
             description: "Start power of tau ceremony",
             output,
         };
@@ -62,8 +71,8 @@ impl<'a> CircomExercise<'a> {
     pub fn contribute_ceremony(
         &self,
         output: &mut Vec<u8>,
-        contribute_in_file_name: &Path,
-        contribute_out_file_name: &Path,
+        // contribute_in_file_name: &Path,
+        // contribute_out_file_name: &Path,
     ) -> Result<bool> {
         writeln!(output, "{}", "Contribute to the ceremony...")?;
 
@@ -72,8 +81,8 @@ impl<'a> CircomExercise<'a> {
             pot_dir: &self.circuit_dir,
             args: &[
                 "ptc",
-                &contribute_in_file_name.display().to_string(),
-                &contribute_out_file_name.display().to_string(),
+                &self.contribution_file_0(),
+                &self.contribution_file_1(),
                 "-v",
                 "-e",
             ],
@@ -89,7 +98,13 @@ impl<'a> CircomExercise<'a> {
 
         let mut prepare_circuit_proof_cmd = SnarkjsCmd {
             pot_dir: &self.circuit_dir,
-            args: &["pt2", "pot9_0001.ptau", "pot9_final.ptau", "-v", "-e"],
+            args: &[
+                "pt2",
+                &self.contribution_file_1(),
+                &self.contribution_file_final(),
+                "-v",
+                "-e",
+            ],
             description: "Prepare circuit-specific",
             output,
         };
@@ -224,5 +239,22 @@ impl<'a> CircomExercise<'a> {
         };
 
         verify_proof_cmd.run()
+    }
+
+    fn contribution_file_0(&self) -> String {
+        self.contribution_file_name("_0000")
+    }
+
+    fn contribution_file_1(&self) -> String {
+        self.contribution_file_name("_0001")
+    }
+
+    fn contribution_file_final(&self) -> String {
+        self.contribution_file_name("_final")
+    }
+
+    fn contribution_file_name(&self, suffix: &str) -> String {
+        // "pot" + &self.ptau.to_owned() + suffix + ".ptau"
+        format!("pot{}{}.ptau", &self.ptau, &suffix)
     }
 }
