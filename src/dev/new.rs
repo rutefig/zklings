@@ -135,11 +135,11 @@ publish = false
 [dependencies]
 "#;
 
-const README: &str = "# Rustlings 👽
+const README: &str = "# ZKLings 👽
 
-Welcome to these third-party Rustlings exercises 😃
+Welcome to these third-party ZKLings exercises 😃
 
-First, [install Rustlings using the official instructions](https://github.com/rust-lang/rustlings) ✅
+First, [install ZKLings using the official instructions](https://github.com/rutefig/zklings) ✅
 
-Then, clone this repository, open a terminal in this directory and run `rustlings` to get started with the exercises 🚀
+Then, clone this repository, open a terminal in this directory and run `zklings` to get started with the exercises 🚀
 ";
