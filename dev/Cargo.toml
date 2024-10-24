@@ -20,10 +20,16 @@ bin = [
   { name = "01_constraints_sol", path = "../solutions/circom/02_constraints/01_constraints.circom" },
   { name = "01_templates", path = "../exercises/circom/03_templates/01_templates.circom" },
   { name = "01_templates_sol", path = "../solutions/circom/03_templates/01_templates.circom" },
-  { name = "01_intro", path = "../exercises/finite_fields/01_sets_and_groups/01_intro.rs" },
-  { name = "01_intro_sol", path = "../solutions/finite_fields/01_sets_and_groups/01_intro.rs" },
-  { name = "02_binary_operations", path = "../exercises/finite_fields/01_sets_and_groups/02_binary_operations.rs" },
-  { name = "02_binary_operations_sol", path = "../solutions/finite_fields/01_sets_and_groups/02_binary_operations.rs" },
+  { name = "01_binary_operations", path = "../exercises/finite_fields/01_sets_and_groups/01_binary_operations.rs" },
+  { name = "01_binary_operations_sol", path = "../solutions/finite_fields/01_sets_and_groups/01_binary_operations.rs" },
+  { name = "02_identity", path = "../exercises/finite_fields/01_sets_and_groups/02_identity.rs" },
+  { name = "02_identity_sol", path = "../solutions/finite_fields/01_sets_and_groups/02_identity.rs" },
+  { name = "03_inverse", path = "../exercises/finite_fields/01_sets_and_groups/03_inverse.rs" },
+  { name = "03_inverse_sol", path = "../solutions/finite_fields/01_sets_and_groups/03_inverse.rs" },
+  { name = "04_associative", path = "../exercises/finite_fields/01_sets_and_groups/04_associative.rs" },
+  { name = "04_associative_sol", path = "../solutions/finite_fields/01_sets_and_groups/04_associative.rs" },
+  { name = "05_group", path = "../exercises/finite_fields/01_sets_and_groups/05_group.rs" },
+  { name = "05_group_sol", path = "../solutions/finite_fields/01_sets_and_groups/05_group.rs" },
 ]
 
 [package]

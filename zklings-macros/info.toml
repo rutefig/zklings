@@ -151,7 +151,34 @@ Instantiate the template A with the component keyword and pass the necessary par
 """
 
 [[exercises]]
-name = "01_intro"
+name = "01_binary_operations"
+ext = "rs"
+dir = "finite_fields/01_sets_and_groups"
+test = true
+hint = """
+Implement group addition (add more)
+"""
+
+[[exercises]]
+name = "02_identity"
+ext = "rs"
+dir = "finite_fields/01_sets_and_groups"
+test = true
+hint = """
+Implement group addition (add more)
+"""
+
+[[exercises]]
+name = "03_inverse"
+ext = "rs"
+dir = "finite_fields/01_sets_and_groups"
+test = true
+hint = """
+Implement group addition (add more)
+"""
+
+[[exercises]]
+name = "04_associative"
 ext = "rs"
 dir = "finite_fields/01_sets_and_groups"
 test = false
@@ -160,7 +187,7 @@ Implement group addition (add more)
 """
 
 [[exercises]]
-name = "02_binary_operations"
+name = "05_group"
 ext = "rs"
 dir = "finite_fields/01_sets_and_groups"
 test = true
