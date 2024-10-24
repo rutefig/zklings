@@ -67,6 +67,7 @@ serde.workspace = true
 toml_edit.workspace = true
 markdown = "1.0.0-alpha.18"
 halo2_proofs = { version = "0.3.0" }
+rand = "0.8.5"
 
 
 [dev-dependencies]
