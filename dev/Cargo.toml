@@ -30,6 +30,10 @@ bin = [
   { name = "04_associative_sol", path = "../solutions/finite_fields/01_sets_and_groups/04_associative.rs" },
   { name = "05_group", path = "../exercises/finite_fields/01_sets_and_groups/05_group.rs" },
   { name = "05_group_sol", path = "../solutions/finite_fields/01_sets_and_groups/05_group.rs" },
+  { name = "dlp1", path = "../exercises/zk-protocols-basics/01_discrete_log_problem/dlp1.rs" },
+  { name = "dlp1_sol", path = "../solutions/zk-protocols-basics/01_discrete_log_problem/dlp1.rs" },
+  { name = "dlp2", path = "../exercises/zk-protocols-basics/01_discrete_log_problem/dlp2.rs" },
+  { name = "dlp2_sol", path = "../solutions/zk-protocols-basics/01_discrete_log_problem/dlp2.rs" },
 ]
 
 [package]

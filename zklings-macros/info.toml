@@ -156,7 +156,7 @@ ext = "rs"
 dir = "finite_fields/01_sets_and_groups"
 test = true
 hint = """
-Implement group addition (add more)
+Check out the different variable types for each operation.
 """
 
 [[exercises]]
@@ -165,7 +165,7 @@ ext = "rs"
 dir = "finite_fields/01_sets_and_groups"
 test = true
 hint = """
-Implement group addition (add more)
+In our case we are looking for the identity element of a multiplicative group.
 """
 
 [[exercises]]
@@ -174,7 +174,7 @@ ext = "rs"
 dir = "finite_fields/01_sets_and_groups"
 test = true
 hint = """
-Implement group addition (add more)
+You might want to consider thinking of fractions.
 """
 
 [[exercises]]
@@ -183,7 +183,7 @@ ext = "rs"
 dir = "finite_fields/01_sets_and_groups"
 test = false
 hint = """
-Implement group addition (add more)
+Make sure to add the correct set elements.
 """
 
 [[exercises]]
@@ -192,5 +192,23 @@ ext = "rs"
 dir = "finite_fields/01_sets_and_groups"
 test = true
 hint = """
-Implement group addition (add more)
+Feel free to review the different formulars for each property and check them on the inputs.
+"""
+
+[[exercises]]
+name = "dlp1"
+ext = "rs"
+dir = "zk-protocols-basics/01_discrete_log_problem"
+test = true
+hint = """
+Implement the basic discrete log function which runs a check on individual element within the range and checks if the exponenetiation matches the result.
+"""
+
+[[exercises]]
+name = "dlp2"
+ext = "rs"
+dir = "zk-protocols-basics/01_discrete_log_problem"
+test = true
+hint = """
+Implement the discrete log function returning an array with at least five solutions for the same modulo result.
 """
