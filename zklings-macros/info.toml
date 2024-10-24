@@ -167,3 +167,12 @@ test = true
 hint = """
 Implement the discrete log function returning an array with at least five solutions for the same modulo result.
 """
+
+[[exercises]]
+name = "01_schnorr_protocol"
+ext = "rs"
+dir = "zk-protocols-basics/02_schnorr_protocol"
+test = true
+hint = """
+Implement the prover_commitment, prover_response, and verifier_check function as specified in the Schnorr Protocol.
+"""
