@@ -151,6 +151,51 @@ Instantiate the template A with the component keyword and pass the necessary par
 """
 
 [[exercises]]
+name = "01_binary_operations"
+ext = "rs"
+dir = "finite_fields/01_sets_and_groups"
+test = true
+hint = """
+Check out the different variable types for each operation.
+"""
+
+[[exercises]]
+name = "02_identity"
+ext = "rs"
+dir = "finite_fields/01_sets_and_groups"
+test = true
+hint = """
+In our case we are looking for the identity element of a multiplicative group.
+"""
+
+[[exercises]]
+name = "03_inverse"
+ext = "rs"
+dir = "finite_fields/01_sets_and_groups"
+test = true
+hint = """
+You might want to consider thinking of fractions.
+"""
+
+[[exercises]]
+name = "04_associative"
+ext = "rs"
+dir = "finite_fields/01_sets_and_groups"
+test = false
+hint = """
+Make sure to add the correct set elements.
+"""
+
+[[exercises]]
+name = "05_group"
+ext = "rs"
+dir = "finite_fields/01_sets_and_groups"
+test = true
+hint = """
+Feel free to review the different formulars for each property and check them on the inputs.
+"""
+
+[[exercises]]
 name = "dlp1"
 ext = "rs"
 dir = "zk-protocols-basics/01_discrete_log_problem"
