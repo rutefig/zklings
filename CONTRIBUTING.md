@@ -40,6 +40,7 @@ When updating an exercise, check if its solution needs to be updated.
 - Make sure to put in some helpful links, and link to sections of The Book in `exercises/yourTopic/README.md`.
 - In the exercise, add a `// TODO: …` comment where user changes are required.
 - Add a solution at `solutions/yourTopic/yourTopicN.rs` with comments explaining it.
+- For circom circuit, add public input in JSON format with the same name as exercise e.g. `01_templates.json` (paired up with `01_templates.circom`)
 - Add the [metadata for your exercise](#exercise-metadata) in the `zklings-macros/info.toml` file.
 - Make sure your exercise runs with `zklings run yourTopicN`.
 - [Open a pull request](#pull-requests).

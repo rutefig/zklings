@@ -7,12 +7,15 @@ use std::{
     io::Write,
     path::{Path, PathBuf},
     process::Command,
+    time::SystemTime,
 };
 
 use crate::{
     cmd::{run_cmd, CargoCmd, CircomCmd},
+    exercise_circom::CircomExercise,
     in_official_repo,
     terminal_link::TerminalFileLink,
+    time::get_elapsed_time,
     DEBUG_PROFILE,
 };
 
@@ -176,6 +179,9 @@ pub trait RunnableExercise {
     fn run_circom(&self, output: &mut Vec<u8>, _target_dir: &Path) -> Result<bool> {
         writeln!(output, "{}", "Compiling Circom circuit...".underlined())?;
 
+        // For logging elapsed time for whole process.
+        let now = SystemTime::now();
+
         let path = self.path().clone();
         let full_path = Path::new(&path);
         let circuit_dir = full_path.parent().unwrap_or(Path::new(""));
@@ -198,19 +204,46 @@ pub trait RunnableExercise {
             return Ok(false);
         }
 
+        // Circom.
+        let ptau = "9";
+        let circom_exercise = CircomExercise {
+            circuit_dir,
+            circuit_file,
+            ptau,
+        };
+
+        // Computing witness.
+        let generate_witness = circom_exercise.generate_witness(output)?;
+        if !generate_witness {
+            return Ok(false);
+        }
+
+        // Setup ceremony and generate proof
         writeln!(output, "{}", "Generating proof...".underlined())?;
 
-        // Here you would implement the logic to generate a proof
-        // This is a placeholder and would need to be expanded based on your specific requirements
-        let proof_success = true;
+        circom_exercise.start_ceremony(output)?;
+        circom_exercise.contribute_ceremony(output)?;
+        // Note: Circuit specific quite taking time,
+        // maybe having flag to check if exercise need to check is nice to have.
+        circom_exercise.prepare_circuit_proof(output)?;
+        circom_exercise.create_z_key(output)?;
+        circom_exercise.contribute_z_key(output)?;
+        circom_exercise.export_verification_key(output)?;
+        let proof_success = circom_exercise.generate_proof(output).unwrap();
+        if !proof_success {
+            return Ok(false);
+        }
 
         writeln!(output, "{}", "Verifying proof...".underlined())?;
+        let verify_success = circom_exercise.verify_proof(output).unwrap();
+        if !verify_success {
+            return Ok(false);
+        }
 
-        // Here you would implement the logic to verify the proof
-        // This is a placeholder and would need to be expanded based on your specific requirements
-        let verify_success = true;
+        let elapsed_time = get_elapsed_time(&now);
+        writeln!(output, "Elapsed time: {}s", elapsed_time)?;
 
-        Ok(compile_success && proof_success && verify_success)
+        Ok(true)
     }
 
     fn run_markdown(&self, output: &mut Vec<u8>) -> Result<bool> {

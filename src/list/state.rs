@@ -105,7 +105,7 @@ impl<'a> UiState<'a> {
             .column_spacing(2)
             .highlight_spacing(HighlightSpacing::Always)
             .highlight_style(Style::new().bg(ratatui::style::Color::Rgb(50, 50, 50)))
-            .highlight_symbol("🦀")
+            .highlight_symbol("👽")
             .block(Block::default().borders(Borders::BOTTOM));
 
         let selected = app_state.current_exercise_ind();
