@@ -117,13 +117,11 @@ impl notify::EventHandler for NotifyEventHandler {
             .paths
             .into_iter()
             .filter_map(|path| {
-                let file_name = path.file_name()?.to_str()?.as_bytes();
-
-                let [file_name_without_ext @ .., b'.', b'c', b'i', b'r', b'c', b'o', b'm'] =
-                    file_name
-                else {
-                    return None;
-                };
+                let file_name_without_ext = path
+                    .file_stem()
+                    .and_then(|stem| stem.to_str())
+                    .unwrap()
+                    .as_bytes();
 
                 self.exercise_names
                     .iter()
