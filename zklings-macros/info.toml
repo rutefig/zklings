@@ -167,3 +167,12 @@ test = true
 hint = """
 Implement the discrete log function returning an array with at least five solutions for the same modulo result.
 """
+
+[[exercises]]
+name = "split_and_fold"
+ext = "rs"
+dir = "zk-protocols-basics/02_split_and_fold"
+test = true
+hint = """
+Implement the verification function to return true.
+"""

@@ -24,6 +24,8 @@ bin = [
   { name = "dlp1_sol", path = "../solutions/zk-protocols-basics/01_discrete_log_problem/dlp1.rs" },
   { name = "dlp2", path = "../exercises/zk-protocols-basics/01_discrete_log_problem/dlp2.rs" },
   { name = "dlp2_sol", path = "../solutions/zk-protocols-basics/01_discrete_log_problem/dlp2.rs" },
+  { name = "split_and_fold", path = "../exercises/zk-protocols-basics/02_split_and_fold/split_and_fold.rs" },
+  { name = "split_and_fold_sol", path = "../solutions/zk-protocols-basics/02_split_and_fold/split_and_fold.rs" },
 ]
 
 [package]
