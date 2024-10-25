@@ -3,8 +3,8 @@ use std::marker::PhantomData;
 
 use p3_air::{Air, AirBuilder, BaseAir};
 use p3_field::{AbstractField, Field};
-use p3_matrix::Matrix;
 use p3_matrix::dense::RowMajorMatrix;
+use p3_matrix::Matrix;
 
 use p3_challenger::{HashChallenger, SerializingChallenger32};
 use p3_circle::CirclePcs;
@@ -22,49 +22,54 @@ use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::util::SubscriberInitExt;
 use tracing_subscriber::{EnvFilter, Registry};
 
-pub struct FibonacciAir {
-    pub num_steps: usize,
-    pub final_value: u32,
+// Define the Air for proving a + b = c
+pub struct AdditionAir {
+    pub a: u32,
+    pub b: u32,
+    pub c: u32,
 }
 
-impl<F: Field> BaseAir<F> for FibonacciAir {
+impl<F: Field> BaseAir<F> for AdditionAir {
     fn width(&self) -> usize {
-        2 
+        3 // a, b, and c will be part of the trace.
     }
 }
 
-impl<AB: AirBuilder> Air<AB> for FibonacciAir {
+impl<AB: AirBuilder> Air<AB> for AdditionAir {
     fn eval(&self, builder: &mut AB) {
         let main = builder.main();
         let local = main.row_slice(0);
-        let next = main.row_slice(1);
-
-
-        builder.when_first_row().assert_eq(local[0], AB::Expr::zero());
-        builder.when_first_row().assert_eq(local[1], AB::Expr::one());
-
         
-        builder.when_transition().assert_eq(next[0], local[1]);
-        builder.when_transition().assert_eq(next[1], local[0] + local[1]);
+        // We only want to enforce the constraint on the first row
+        builder.when_first_row().assert_eq(local[0] + local[1], local[2]);
 
-
-        let final_value = AB::Expr::from_canonical_u32(self.final_value);
-        builder.when_last_row().assert_eq(local[1], final_value);
+        // Add the final check to assert c is the correct sum, but only for the first row
+        let final_value = AB::Expr::from_canonical_u32(self.c);
+        builder.when_first_row().assert_eq(local[2], final_value);
     }
 }
 
-pub fn generate_fibonacci_trace<F: Field>(num_steps: usize) -> RowMajorMatrix<F> {
-    let mut values = Vec::with_capacity(num_steps * 2);
-    let mut a = F::zero();
-    let mut b = F::one();
-    for _ in 0..num_steps {
-        values.push(a);
-        values.push(b);
-        let c = a + b;
-        a = b;
-        b = c;
+// Generate the trace for the equation a + b = c
+// Generate the trace for the equation a + b = c, padded to at least 4 rows
+pub fn generate_addition_trace<F: Field>(a: u32, b: u32, c: u32) -> RowMajorMatrix<F> {
+    let mut values = Vec::with_capacity(3 * 4); // Padding to 4 rows
+    let a_f = F::from_canonical_u32(a);
+    let b_f = F::from_canonical_u32(b);
+    let c_f = F::from_canonical_u32(c);
+
+    // First row: actual values of a, b, c
+    values.push(a_f);
+    values.push(b_f);
+    values.push(c_f);
+
+    // Second, third, and fourth rows: just duplicate or pad with zeros
+    for _ in 0..3 {
+        values.push(F::zero());
+        values.push(F::zero());
+        values.push(F::zero());
     }
-    RowMajorMatrix::new(values, 2)
+
+    RowMajorMatrix::new(values, 3) // Still 3 columns (a, b, c), but padded to 4 rows
 }
 
 fn main() -> Result<(), impl Debug> {
@@ -113,10 +118,12 @@ fn main() -> Result<(), impl Debug> {
     type MyConfig = StarkConfig<Pcs, Challenge, Challenger>;
     let config = MyConfig::new(pcs);
 
-    let num_steps = 16; 
-    let final_value = 987; 
-    let air = FibonacciAir { num_steps, final_value };
-    let trace = generate_fibonacci_trace::<Val>(num_steps);
+
+    let a = 4;
+    let b = 5;
+    let c = 9;
+    let air = AdditionAir { a, b, c };
+    let trace = generate_addition_trace::<Val>(a, b, c);
 
     let mut challenger = Challenger::from_hasher(vec![], byte_hash);
     let proof = prove(&config, &air, &mut challenger, trace, &vec![]);
