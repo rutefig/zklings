@@ -12,8 +12,8 @@ use std::{
 
 use crate::{
     circuit_ceremony::CircuitCeremony,
+    circuit_generate_verify::CircuitGenerateVerify,
     cmd::{run_cmd, CargoCmd, CircomCmd},
-    exercise_circom::CircomExercise,
     in_official_repo,
     terminal_link::TerminalFileLink,
     time::get_elapsed_time,
@@ -207,7 +207,7 @@ pub trait RunnableExercise {
 
         // Circom.
         let ptau = "9";
-        let circom_exercise = CircomExercise {
+        let circuit_generate_verify = CircuitGenerateVerify {
             circuit_dir,
             circuit_file,
         };
@@ -217,7 +217,7 @@ pub trait RunnableExercise {
         };
 
         // Computing witness.
-        let generate_witness = circom_exercise.generate_witness(output)?;
+        let generate_witness = circuit_generate_verify.generate_witness(output)?;
         if !generate_witness {
             return Ok(false);
         }
@@ -229,21 +229,21 @@ pub trait RunnableExercise {
         circuit_ceremony.contribute_ceremony(output)?;
         // Note: Circuit specific quite taking time,
         // maybe having flag to check if exercise need to check is nice to have.
-        circom_exercise.prepare_circuit_proof(
+        circuit_generate_verify.prepare_circuit_proof(
             output,
             circuit_ceremony.contribution_file_1(),
             circuit_ceremony.contribution_file_final(),
         )?;
-        circom_exercise.create_z_key(output, circuit_ceremony.contribution_file_final())?;
-        circom_exercise.contribute_z_key(output)?;
-        circom_exercise.export_verification_key(output)?;
-        let proof_success = circom_exercise.generate_proof(output).unwrap();
+        circuit_generate_verify.create_z_key(output, circuit_ceremony.contribution_file_final())?;
+        circuit_generate_verify.contribute_z_key(output)?;
+        circuit_generate_verify.export_verification_key(output)?;
+        let proof_success = circuit_generate_verify.generate_proof(output).unwrap();
         if !proof_success {
             return Ok(false);
         }
 
         writeln!(output, "{}", "Verifying proof...".underlined())?;
-        let verify_success = circom_exercise.verify_proof(output).unwrap();
+        let verify_success = circuit_generate_verify.verify_proof(output).unwrap();
         if !verify_success {
             return Ok(false);
         }

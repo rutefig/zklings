@@ -12,12 +12,12 @@ use crate::{
     path::{append_compiled_folder, change_extension},
 };
 
-pub struct CircomExercise<'a> {
+pub struct CircuitGenerateVerify<'a> {
     pub circuit_dir: &'a Path,
     pub circuit_file: &'a OsStr,
 }
 
-impl<'a> CircomExercise<'a> {
+impl<'a> CircuitGenerateVerify<'a> {
     pub fn generate_witness(&self, output: &mut Vec<u8>) -> Result<bool> {
         writeln!(output, "{}", "Computing witness...".underlined())?;
 

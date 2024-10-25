@@ -12,12 +12,12 @@ use self::{app_state::AppState, dev::DevCommands, info_file::InfoFile, watch::Wa
 mod app_state;
 mod cargo_toml;
 mod circuit_ceremony;
+mod circuit_generate_verify;
 mod cmd;
 mod cmd_snarkjs;
 mod dev;
 mod embedded;
 mod exercise;
-mod exercise_circom;
 mod info_file;
 mod init;
 mod list;
