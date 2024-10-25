@@ -189,23 +189,6 @@ impl<'a> CircuitGenerateVerify<'a> {
         format!("{:?}/{}", "../", input_file).replace('"', "")
     }
 
-    // Ceremony setup
-    // fn contribution_file_0(&self) -> String {
-    //     self.contribution_file_name("_0000")
-    // }
-
-    // fn contribution_file_1(&self) -> String {
-    //     self.contribution_file_name("_0001")
-    // }
-
-    // fn contribution_file_final(&self) -> String {
-    //     self.contribution_file_name("_final")
-    // }
-
-    // fn contribution_file_name(&self, suffix: &str) -> String {
-    //     format!("pot{}{}.ptau", &self.ptau, &suffix)
-    // }
-
     // zkey
     fn zkey_file_0(&self) -> PathBuf {
         change_extension_with_suffix(&self.circuit_file, "_0000", "zkey")
