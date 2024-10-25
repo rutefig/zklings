@@ -7,13 +7,6 @@ edition = "2021"
 members = []
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-[[bin]]
-name = "fibonacci"
-path = "src/fibonacci.rs"
-
-[[bin]]
-name = "addition"
-path = "src/addition.rs"
 
 [dependencies]
 p3-air = { git = "https://github.com/Plonky3/Plonky3.git" }
