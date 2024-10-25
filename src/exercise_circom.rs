@@ -15,7 +15,6 @@ use crate::{
 pub struct CircomExercise<'a> {
     pub circuit_dir: &'a Path,
     pub circuit_file: &'a OsStr,
-    pub ptau: &'a str,
 }
 
 impl<'a> CircomExercise<'a> {
@@ -39,57 +38,20 @@ impl<'a> CircomExercise<'a> {
         generate_witness_cmd.run()
     }
 
-    // "powersoftau new bn128 9 pot9_0000.ptau -v"
-    pub fn start_ceremony(&self, output: &mut Vec<u8>) -> Result<bool> {
-        writeln!(output, "{}", "Start ceremony...")?;
-
-        let mut start_ceremony_cmd = SnarkjsCmd {
-            pot_dir: &self.circuit_dir,
-            args: &[
-                "powersoftau",
-                "new",
-                "bn128",
-                "9",
-                &self.contribution_file_0(),
-                "-v",
-            ],
-
-            description: "Start power of tau ceremony",
-            output,
-        };
-
-        start_ceremony_cmd.run()
-    }
-
-    pub fn contribute_ceremony(&self, output: &mut Vec<u8>) -> Result<bool> {
-        writeln!(output, "{}", "Contribute to the ceremony...")?;
-
-        // Create ceremony with skipping entropy input
-        let mut contribute_ceremony_cmd = SnarkjsCmd {
-            pot_dir: &self.circuit_dir,
-            args: &[
-                "ptc",
-                &self.contribution_file_0(),
-                &self.contribution_file_1(),
-                "-v",
-                "-e",
-            ],
-            description: "First contribution",
-            output,
-        };
-
-        contribute_ceremony_cmd.run()
-    }
-
-    pub fn prepare_circuit_proof(&self, output: &mut Vec<u8>) -> Result<bool> {
+    pub fn prepare_circuit_proof(
+        &self,
+        output: &mut Vec<u8>,
+        contribution_file_1: String,
+        contribution_file_final: String,
+    ) -> Result<bool> {
         writeln!(output, "{}", "Prepare circuit...")?;
 
         let mut prepare_circuit_proof_cmd = SnarkjsCmd {
             pot_dir: &self.circuit_dir,
             args: &[
                 "pt2",
-                &self.contribution_file_1(),
-                &self.contribution_file_final(),
+                &contribution_file_1,
+                &contribution_file_final,
                 "-v",
                 "-e",
             ],
@@ -100,7 +62,11 @@ impl<'a> CircomExercise<'a> {
         prepare_circuit_proof_cmd.run()
     }
 
-    pub fn create_z_key(&self, output: &mut Vec<u8>) -> Result<bool> {
+    pub fn create_z_key(
+        &self,
+        output: &mut Vec<u8>,
+        contribution_file_final: String,
+    ) -> Result<bool> {
         writeln!(output, "{}", "Create .zkey ...")?;
 
         let r1cs_file = change_extension(&self.circuit_file, "r1cs")
@@ -113,7 +79,7 @@ impl<'a> CircomExercise<'a> {
                 "groth16",
                 "setup",
                 &r1cs_file,
-                "pot9_final.ptau",
+                &contribution_file_final,
                 &self.zkey_file_0().display().to_string(),
             ],
             description: "Create .zkey",
@@ -224,21 +190,21 @@ impl<'a> CircomExercise<'a> {
     }
 
     // Ceremony setup
-    fn contribution_file_0(&self) -> String {
-        self.contribution_file_name("_0000")
-    }
+    // fn contribution_file_0(&self) -> String {
+    //     self.contribution_file_name("_0000")
+    // }
 
-    fn contribution_file_1(&self) -> String {
-        self.contribution_file_name("_0001")
-    }
+    // fn contribution_file_1(&self) -> String {
+    //     self.contribution_file_name("_0001")
+    // }
 
-    fn contribution_file_final(&self) -> String {
-        self.contribution_file_name("_final")
-    }
+    // fn contribution_file_final(&self) -> String {
+    //     self.contribution_file_name("_final")
+    // }
 
-    fn contribution_file_name(&self, suffix: &str) -> String {
-        format!("pot{}{}.ptau", &self.ptau, &suffix)
-    }
+    // fn contribution_file_name(&self, suffix: &str) -> String {
+    //     format!("pot{}{}.ptau", &self.ptau, &suffix)
+    // }
 
     // zkey
     fn zkey_file_0(&self) -> PathBuf {

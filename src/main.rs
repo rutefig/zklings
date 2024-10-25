@@ -11,6 +11,7 @@ use self::{app_state::AppState, dev::DevCommands, info_file::InfoFile, watch::Wa
 
 mod app_state;
 mod cargo_toml;
+mod circuit_ceremony;
 mod cmd;
 mod cmd_snarkjs;
 mod dev;

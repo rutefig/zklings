@@ -11,6 +11,7 @@ use std::{
 };
 
 use crate::{
+    circuit_ceremony::CircuitCeremony,
     cmd::{run_cmd, CargoCmd, CircomCmd},
     exercise_circom::CircomExercise,
     in_official_repo,
@@ -209,6 +210,9 @@ pub trait RunnableExercise {
         let circom_exercise = CircomExercise {
             circuit_dir,
             circuit_file,
+        };
+        let circuit_ceremony = CircuitCeremony {
+            working_dir: circuit_dir,
             ptau,
         };
 
@@ -221,12 +225,16 @@ pub trait RunnableExercise {
         // Setup ceremony and generate proof
         writeln!(output, "{}", "Generating proof...".underlined())?;
 
-        circom_exercise.start_ceremony(output)?;
-        circom_exercise.contribute_ceremony(output)?;
+        circuit_ceremony.start_ceremony(output)?;
+        circuit_ceremony.contribute_ceremony(output)?;
         // Note: Circuit specific quite taking time,
         // maybe having flag to check if exercise need to check is nice to have.
-        circom_exercise.prepare_circuit_proof(output)?;
-        circom_exercise.create_z_key(output)?;
+        circom_exercise.prepare_circuit_proof(
+            output,
+            circuit_ceremony.contribution_file_1(),
+            circuit_ceremony.contribution_file_final(),
+        )?;
+        circom_exercise.create_z_key(output, circuit_ceremony.contribution_file_final())?;
         circom_exercise.contribute_z_key(output)?;
         circom_exercise.export_verification_key(output)?;
         let proof_success = circom_exercise.generate_proof(output).unwrap();
