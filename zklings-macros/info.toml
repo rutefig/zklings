@@ -167,3 +167,21 @@ test = true
 hint = """
 Implement the discrete log function returning an array with at least five solutions for the same modulo result.
 """
+
+[[exercises]]
+name = "addition"
+ext = "rs"
+dir = "plonky3/src"
+test = false
+hint = """
+Proving addition of two numbers == third number
+"""
+
+[[exercises]]
+name = "fibonacci"
+ext = "rs"
+dir = "plonky3/src"
+test = false
+hint = """
+Proving fibonacci sequence using Plonky3
+"""
