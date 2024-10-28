@@ -4,7 +4,6 @@ use std::{
     io::{self, Write},
     path::Path,
     sync::{atomic::AtomicBool, mpsc::channel},
-    thread,
     time::Duration,
 };
 
