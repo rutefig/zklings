@@ -1,8 +1,5 @@
 use anyhow::{Context, Result};
-use notify::{
-    event::{AccessKind, AccessMode, MetadataKind, ModifyKind, RenameMode},
-    Event, EventKind,
-};
+use notify::{Event, EventKind};
 use std::{
     sync::{
         atomic::Ordering::Relaxed,
@@ -74,46 +71,16 @@ impl notify::EventHandler for NotifyEventHandler {
             return;
         }
 
-        let input_event = match input_event {
-            Ok(v) => v,
-            Err(e) => {
-                // An error occurs when the receiver is dropped.
-                // After dropping the receiver, the watcher guard should also be dropped.
-                let _ = self.error_sender.send(WatchEvent::NotifyErr(e));
-                return;
-            }
+        let event = match self.validate_event(input_event) {
+            Some(event) => event,
+            None => return,
         };
 
-        match input_event.kind {
-            EventKind::Any => (),
-            EventKind::Modify(modify_kind) => match modify_kind {
-                ModifyKind::Any | ModifyKind::Data(_) => (),
-                ModifyKind::Name(rename_mode) => match rename_mode {
-                    RenameMode::Any | RenameMode::To => (),
-                    RenameMode::From | RenameMode::Both | RenameMode::Other => return,
-                },
-                ModifyKind::Metadata(metadata_kind) => match metadata_kind {
-                    MetadataKind::Any | MetadataKind::WriteTime => (),
-                    MetadataKind::AccessTime
-                    | MetadataKind::Permissions
-                    | MetadataKind::Ownership
-                    | MetadataKind::Extended
-                    | MetadataKind::Other => return,
-                },
-                ModifyKind::Other => return,
-            },
-            EventKind::Access(access_kind) => match access_kind {
-                AccessKind::Any => (),
-                AccessKind::Close(access_mode) => match access_mode {
-                    AccessMode::Any | AccessMode::Write => (),
-                    AccessMode::Execute | AccessMode::Read | AccessMode::Other => return,
-                },
-                AccessKind::Read | AccessKind::Open(_) | AccessKind::Other => return,
-            },
-            EventKind::Create(_) | EventKind::Remove(_) | EventKind::Other => return,
+        if !EventKind::is_modify(&event.kind) {
+            return;
         }
 
-        let _ = input_event
+        let _ = event
             .paths
             .into_iter()
             .filter_map(|path| {
@@ -128,5 +95,17 @@ impl notify::EventHandler for NotifyEventHandler {
                     .position(|exercise_name| *exercise_name == file_name_without_ext)
             })
             .try_for_each(|exercise_ind| self.update_sender.send(exercise_ind));
+    }
+}
+
+impl NotifyEventHandler {
+    fn validate_event(&self, input_event: notify::Result<Event>) -> Option<Event> {
+        match input_event {
+            Ok(event) => Some(event),
+            Err(e) => {
+                let _ = self.error_sender.send(WatchEvent::NotifyErr(e));
+                None
+            }
+        }
     }
 }

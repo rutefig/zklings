@@ -71,11 +71,9 @@ pub fn watch(
         None
     };
 
-    let mut watch_state = WatchState::new(app_state, manual_run);
+    let mut watch_state: WatchState<'_> = WatchState::build(app_state, tx, manual_run)?;
 
     watch_state.run_current_exercise()?;
-
-    thread::spawn(move || terminal_event_handler(tx, manual_run));
 
     while let Ok(event) = rx.recv() {
         match event {
