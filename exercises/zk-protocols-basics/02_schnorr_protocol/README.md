@@ -11,8 +11,9 @@ Understanding the Schnorr protocol is essential for grasping modern cryptographi
 Before diving into the protocol, it's crucial to understand some mathematical concepts:
 
 - **Modular Arithmetic:** Arithmetic operations performed with respect to a modulus $n$, where numbers "wrap around" upon reaching $n$.
-- **Finite Fields:** A set of numbers with addition, subtraction, multiplication, and division operations defined, satisfying certain properties.
+- **Finite Fields:** A set of integers ${0, ..., p-1}$, with $p$ elements where $p$ is a prime number and we have defined the addition and multiplication operations to be modulo $p$.
 - **Discrete Logarithm Problem:** Given $g$ and $y$, find $x$ such that $g^x=y\ mod p$. This problem is computationally hard for large primes, which provides security in cryptographic protocols.
+- **Generator of a Mulitplicative Group:** An element that can produce every other element in the group through repeated multiplication. In a finite field’s multiplicative group, if an element $g$ is a generator, then powers of $g$ will sequentially yield all non-zero elements in the group.
 
 **Key Parameters:**
 
