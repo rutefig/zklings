@@ -176,3 +176,12 @@ test = true
 hint = """
 Implement the prover_commitment, prover_response, and verifier_check function as specified in the Schnorr Protocol.
 """
+
+[[exercises]]
+name = "01_pedersen_commitment"
+ext = "rs"
+dir = "zk-protocols-basics/03_pedersen_commitment"
+test = true
+hint = """
+Implement the Pedersen protocol step-by-step both as a verifier and as a Prover as specified in the Pedersen Commitment Scheme.
+"""

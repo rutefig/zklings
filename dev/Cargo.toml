@@ -26,6 +26,8 @@ bin = [
   { name = "dlp2_sol", path = "../solutions/zk-protocols-basics/01_discrete_log_problem/dlp2.rs" },
   { name = "01_schnorr_protocol", path = "../exercises/zk-protocols-basics/02_schnorr_protocol/01_schnorr_protocol.rs" },
   { name = "01_schnorr_protocol_sol", path = "../solutions/zk-protocols-basics/02_schnorr_protocol/01_schnorr_protocol.rs" },
+  { name = "01_pedersen_commitment", path = "../exercises/zk-protocols-basics/03_pedersen_commitment/01_pedersen_commitment.rs" },
+  { name = "01_pedersen_commitment_sol", path = "../solutions/zk-protocols-basics/03_pedersen_commitment/01_pedersen_commitment.rs" },
 ]
 
 [package]
