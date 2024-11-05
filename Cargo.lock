@@ -1553,6 +1553,7 @@ dependencies = [
  "notify-debouncer-mini",
  "os_pipe",
  "predicates",
+ "rand",
  "ratatui",
  "serde",
  "serde_json",

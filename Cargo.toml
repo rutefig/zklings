@@ -68,7 +68,7 @@ toml_edit.workspace = true
 markdown = "1.0.0-alpha.18"
 halo2_proofs = { version = "0.3.0" }
 notify = "6.1.1"
-
+rand = "0.8.5"
 
 [dev-dependencies]
 assert_cmd = "2.0.14"

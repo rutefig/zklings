@@ -20,6 +20,12 @@ bin = [
   { name = "01_constraints_sol", path = "../solutions/circom/02_constraints/01_constraints.circom" },
   { name = "01_templates", path = "../exercises/circom/03_templates/01_templates.circom" },
   { name = "01_templates_sol", path = "../solutions/circom/03_templates/01_templates.circom" },
+  { name = "dlp1", path = "../exercises/zk-protocols-basics/01_discrete_log_problem/dlp1.rs" },
+  { name = "dlp1_sol", path = "../solutions/zk-protocols-basics/01_discrete_log_problem/dlp1.rs" },
+  { name = "dlp2", path = "../exercises/zk-protocols-basics/01_discrete_log_problem/dlp2.rs" },
+  { name = "dlp2_sol", path = "../solutions/zk-protocols-basics/01_discrete_log_problem/dlp2.rs" },
+  { name = "01_schnorr_protocol", path = "../exercises/zk-protocols-basics/02_schnorr_protocol/01_schnorr_protocol.rs" },
+  { name = "01_schnorr_protocol_sol", path = "../solutions/zk-protocols-basics/02_schnorr_protocol/01_schnorr_protocol.rs" },
 ]
 
 [package]
