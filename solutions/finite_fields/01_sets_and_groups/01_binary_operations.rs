@@ -62,9 +62,9 @@ mod tests {
 
     #[test]
     fn test_concat_operation_inputs() {
-        let a = "hello";
-        let b = "world";
+        let a: &str = "hello";
+        let b: &str = "world";
         assert_eq!(type_of(&a), type_of(&b), "Input types for concat_operation should be the same");
-        concat_operation(a, b); // Just to ensure the function is called
+        concat_operation(&a, &b); // Just to ensure the function is called
     }
 }
