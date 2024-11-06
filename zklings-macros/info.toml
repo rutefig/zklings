@@ -71,8 +71,8 @@ You might need to press ENTER after typing `n`."""
 
 [[exercises]]
 name = "01_basic_modulo"
-ext = "md"
-dir = "math"
+ext = "rs"
+dir = "finite_fields/00_modulo"
 test = false
 hint = """
 The modulo operation gives the remainder after division.
@@ -80,38 +80,38 @@ The modulo operation gives the remainder after division.
 
 [[exercises]]
 name = "02_negative_modulo"
-ext = "md"
-dir = "math"
+ext = "rs"
+dir = "finite_fields/00_modulo"
 test = false
 hint = """
-Calculate the negative of a number in Modular Arithmetic.
+For negative numbers, add the modulus repeatedly until you get a positive number, then perform the modulo operation.
 """
 
 [[exercises]]
 name = "03_modular_addition"
-ext = "md"
-dir = "math"
+ext = "rs"
+dir = "finite_fields/00_modulo"
 test = false
 hint = """
-Calculate the sum of two numbers in Modular Arithmetic.
+First add the numbers, then apply the modulo operation to the result.
 """
 
 [[exercises]]
 name = "04_modular_subtraction"
-ext = "md"
-dir = "math"
+ext = "rs"
+dir = "finite_fields/00_modulo"
 test = false
 hint = """
-Calculate the difference of two numbers in Modular Arithmetic.
+First subtract the numbers, then apply the modulo operation to the result.
 """
 
 [[exercises]]
 name = "05_negative_subtraction"
-ext = "md"
-dir = "math"
+ext = "rs"
+dir = "finite_fields/00_modulo"
 test = false
 hint = """
-Calculate the negative difference of two numbers in Modular Arithmetic.
+First subtract the numbers, then apply the negative modulo operation to the result.
 """
 
 # CIRCOM
