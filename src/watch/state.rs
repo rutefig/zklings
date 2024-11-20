@@ -1,9 +1,13 @@
-use anyhow::Result;
+use anyhow::{Context, Ok, Result};
 use crossterm::{
     style::{style, Stylize},
     terminal,
 };
-use std::io::{self, StdoutLock, Write};
+use std::{
+    io::{self, StdoutLock, Write},
+    sync::mpsc::Sender,
+    thread,
+};
 
 use crate::{
     app_state::{AppState, ExercisesProgress},
@@ -11,7 +15,10 @@ use crate::{
     exercise::{RunnableExercise, OUTPUT_CAPACITY},
     progress_bar::progress_bar,
     terminal_link::TerminalFileLink,
+    watch::terminal_event_handler,
 };
+
+use super::WatchEvent;
 
 #[derive(PartialEq, Eq)]
 enum DoneStatus {
@@ -30,17 +37,25 @@ pub struct WatchState<'a> {
 }
 
 impl<'a> WatchState<'a> {
-    pub fn new(app_state: &'a mut AppState, manual_run: bool) -> Self {
+    pub fn build(
+        app_state: &'a mut AppState,
+        watch_event_sender: Sender<WatchEvent>,
+        manual_run: bool,
+    ) -> Result<Self> {
         let writer = io::stdout().lock();
 
-        Self {
+        thread::Builder::new()
+            .spawn(move || terminal_event_handler(watch_event_sender, manual_run))
+            .context("Failed to spawn a thread to handle terminal events")?;
+
+        Ok(Self {
             writer,
             app_state,
             output: Vec::with_capacity(OUTPUT_CAPACITY),
             show_hint: false,
             done_status: DoneStatus::Pending,
             manual_run,
-        }
+        })
     }
 
     #[inline]

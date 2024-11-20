@@ -11,16 +11,21 @@ use self::{app_state::AppState, dev::DevCommands, info_file::InfoFile, watch::Wa
 
 mod app_state;
 mod cargo_toml;
+mod circuit_ceremony;
+mod circuit_generate_verify;
 mod cmd;
+mod cmd_snarkjs;
 mod dev;
 mod embedded;
 mod exercise;
 mod info_file;
 mod init;
 mod list;
+mod path;
 mod progress_bar;
 mod run;
 mod terminal_link;
+mod time;
 mod watch;
 
 const CURRENT_FORMAT_VERSION: u8 = 1;

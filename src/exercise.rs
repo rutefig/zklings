@@ -7,12 +7,16 @@ use std::{
     io::Write,
     path::{Path, PathBuf},
     process::Command,
+    time::SystemTime,
 };
 
 use crate::{
+    circuit_ceremony::CircuitCeremony,
+    circuit_generate_verify::CircuitGenerateVerify,
     cmd::{run_cmd, CargoCmd, CircomCmd},
     in_official_repo,
     terminal_link::TerminalFileLink,
+    time::get_elapsed_time,
     DEBUG_PROFILE,
 };
 
@@ -176,6 +180,9 @@ pub trait RunnableExercise {
     fn run_circom(&self, output: &mut Vec<u8>, _target_dir: &Path) -> Result<bool> {
         writeln!(output, "{}", "Compiling Circom circuit...".underlined())?;
 
+        // For logging elapsed time for whole process.
+        let now = SystemTime::now();
+
         let path = self.path().clone();
         let full_path = Path::new(&path);
         let circuit_dir = full_path.parent().unwrap_or(Path::new(""));
@@ -198,19 +205,53 @@ pub trait RunnableExercise {
             return Ok(false);
         }
 
+        // Circom.
+        let ptau = "9";
+        let circuit_generate_verify = CircuitGenerateVerify {
+            circuit_dir,
+            circuit_file,
+        };
+        let circuit_ceremony = CircuitCeremony {
+            working_dir: circuit_dir,
+            ptau,
+        };
+
+        // Computing witness.
+        let generate_witness = circuit_generate_verify.generate_witness(output)?;
+        if !generate_witness {
+            return Ok(false);
+        }
+
+        // Setup ceremony and generate proof
         writeln!(output, "{}", "Generating proof...".underlined())?;
 
-        // Here you would implement the logic to generate a proof
-        // This is a placeholder and would need to be expanded based on your specific requirements
-        let proof_success = true;
+        circuit_ceremony.start_ceremony(output)?;
+        circuit_ceremony.contribute_ceremony(output)?;
+        // Note: Circuit specific quite taking time,
+        // maybe having flag to check if exercise need to check is nice to have.
+        circuit_generate_verify.prepare_circuit_proof(
+            output,
+            circuit_ceremony.contribution_file_1(),
+            circuit_ceremony.contribution_file_final(),
+        )?;
+        circuit_generate_verify.create_z_key(output, circuit_ceremony.contribution_file_final())?;
+        circuit_generate_verify.contribute_z_key(output)?;
+        circuit_generate_verify.export_verification_key(output)?;
+        let proof_success = circuit_generate_verify.generate_proof(output).unwrap();
+        if !proof_success {
+            return Ok(false);
+        }
 
         writeln!(output, "{}", "Verifying proof...".underlined())?;
+        let verify_success = circuit_generate_verify.verify_proof(output).unwrap();
+        if !verify_success {
+            return Ok(false);
+        }
 
-        // Here you would implement the logic to verify the proof
-        // This is a placeholder and would need to be expanded based on your specific requirements
-        let verify_success = true;
+        let elapsed_time = get_elapsed_time(&now);
+        writeln!(output, "Elapsed time: {}s", elapsed_time)?;
 
-        Ok(compile_success && proof_success && verify_success)
+        Ok(true)
     }
 
     fn run_markdown(&self, output: &mut Vec<u8>) -> Result<bool> {

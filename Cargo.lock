@@ -1549,6 +1549,7 @@ dependencies = [
  "halo2_proofs",
  "hashbrown",
  "markdown",
+ "notify",
  "notify-debouncer-mini",
  "os_pipe",
  "predicates",

@@ -1,13 +1,9 @@
 use anyhow::{Error, Result};
-use notify_debouncer_mini::{
-    new_debouncer,
-    notify::{self, RecursiveMode},
-};
+use notify::{Config, RecommendedWatcher, RecursiveMode, Watcher};
 use std::{
     io::{self, Write},
     path::Path,
-    sync::mpsc::channel,
-    thread,
+    sync::{atomic::AtomicBool, mpsc::channel},
     time::Duration,
 };
 
@@ -22,6 +18,8 @@ use self::{
 mod notify_event;
 mod state;
 mod terminal_event;
+
+static EXERCISE_RUNNING: AtomicBool = AtomicBool::new(false);
 
 enum WatchEvent {
     Input(InputEvent),
@@ -47,34 +45,34 @@ pub fn watch(
 ) -> Result<WatchExit> {
     let (tx, rx) = channel();
 
-    let mut manual_run = false;
+    let mut manual_run = true;
     // Prevent dropping the guard until the end of the function.
     // Otherwise, the file watcher exits.
-    let _debouncer_guard = if let Some(exercise_names) = notify_exercise_names {
-        let mut debouncer = new_debouncer(
-            Duration::from_millis(200),
-            NotifyEventHandler {
-                tx: tx.clone(),
-                exercise_names,
-            },
+    let _watcher_guard = if let Some(exercise_names) = notify_exercise_names {
+        // Build notify event handler
+        let notify_event_handler = NotifyEventHandler::build(tx.clone(), exercise_names)?;
+
+        // Add watcher
+        let mut watcher = RecommendedWatcher::new(
+            notify_event_handler,
+            Config::default().with_poll_interval(Duration::from_secs(1)),
         )
         .inspect_err(|_| eprintln!("{NOTIFY_ERR}"))?;
-        debouncer
-            .watcher()
+
+        watcher
             .watch(Path::new("exercises"), RecursiveMode::Recursive)
             .inspect_err(|_| eprintln!("{NOTIFY_ERR}"))?;
 
-        Some(debouncer)
+        // Watch and return watcher.
+        Some(watcher)
     } else {
         manual_run = true;
         None
     };
 
-    let mut watch_state = WatchState::new(app_state, manual_run);
+    let mut watch_state: WatchState<'_> = WatchState::build(app_state, tx, manual_run)?;
 
     watch_state.run_current_exercise()?;
-
-    thread::spawn(move || terminal_event_handler(tx, manual_run));
 
     while let Ok(event) = rx.recv() {
         match event {
