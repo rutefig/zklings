@@ -7,6 +7,9 @@ template Add() {
     // TODO: change the type of signal
     signal input sum;
 
+    // This line is equivalent to:
+    // sum <-- a + b;
+    // sum === a + b;
     sum <== a + b;
 }
 

@@ -1,8 +1,4 @@
-# Simple Addition
-
-This is a simple example of a circuit that adds two numbers and outputs the result.
-
-## Signals
+# Signals
 
 In circom we can define three types of signals: `input`, `output` or intermediate (if we don't specify any of the previous ones).
 
@@ -14,6 +10,25 @@ Signals can be assigned with the following operators:
 - `<==` and `==>` which adds a constraint to the R1CS system stating that the signal is equal to the assigned expression.
 
 If we assign signals with the single arrows, we should be careful to add constraints that will check the validity of the computation. Otherwise, a malicious prover can define arbitrary values for the unconstrained signals.
+
+## Public and Private Signals
+
+In circom signals are by default private, so anytime we want to define public signals we need to add them explicitly when defining the `main` component by providing the list of the public input signals.
+
+```circom
+template MyComponent() {
+    signal input x;
+    signal input y;
+
+    signal output z;
+
+    // ...
+}
+
+component main {public [x, y]} = MyComponent();
+```
+
+In the example above, `x` and `y` are public signals because we define it in the `main` component. The signal `z` will also be public because it is defined as the output of the circuit. All of the intermediate signals will be private and so they cannot be accessed from the outside of the circuit.
 
 ## References
 
