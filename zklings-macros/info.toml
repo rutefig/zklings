@@ -144,7 +144,7 @@ You need to have every constraint with just one multiplication. You can add inte
 [[exercises]]
 name = "01_templates"
 ext = "circom"
-dir = "circom/03_templates"
+dir = "circom/04_templates"
 test = false
 hint = """
 Instantiate the template A with the component keyword and pass the necessary parameters
