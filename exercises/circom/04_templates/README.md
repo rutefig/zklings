@@ -29,7 +29,6 @@ template MyTemplate(n) {
 }
 
 template Main() {
-    signal input a;
     signal output out;
 
     component myComponent = MyTemplate(2);
